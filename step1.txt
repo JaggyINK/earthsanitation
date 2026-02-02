@@ -1,0 +1,138 @@
+interface admin :
+
+pages jaune : ( via yahoo) : https://www.pagesjaunes.fr/pros/58439530?at_medium=affiliate&at_campaign=YAHOO&at_creation=&at_variant=NAVIGATION&at_format=FD
+fb : https://www.facebook.com/profile.php?id=61574835776982#
+qwant : https://www.qwant.com/?q=Earth+Sanitation+BTP+Montpellier&t=web
+yahoo: https://fr.search.yahoo.com/search?p=Earth%20Sanitation%20BTP%20Montpellier
+mappy : https://fr.mappy.com/poi/67918ae102c89b5f7ff6d543  ; https://fr.mappy.com/poi/67918ae102c89b5f7ff6d543
+118000.fr  : https://www.118000.fr/e_C0101160406
+cylex-locale.fr : https://www.cylex-locale.fr/entreprises/earth-sanitation-btp-15141499.html
+horraire d'oiverture : https://www.horairesdouverture24.fr/filiale/Montpellier-Earth%2520Sanitation%2520BTP-5829591C.html
+L'annuaire Hoodspot : https://annuaire.petitesaffiches.fr/collecte-des-eaux-usees/earth-sanitation-btp-93919179700017/
+navmii : https://livepoi.navmii.com/p/view/847ce5a5-e143-4a64-85b1-fa9c7aa3973c
+pages24 : https://www.pages-24.fr/montpellier/earth-sanitation-btp-aXRsAO.html
+trouver ouvert : https://trouver-ouvert.fr/montpellier/earth-sanitation-btp-3201679
++ le reste sera bientot ajouté : google , insta, linkedin , tripadvisor , twitter (x) , 
+
+a configurer : 
+apple plan , https://www.here.com/ , 118712 , foursquare , horaires.lefigaro.fr, moneyvox , nextdoor, tomtom , uber, etc , + trustpilot 
++ donner la capacité de répoondre aux avis google depuis le dashboard admin , 
++ ajouter un onglet : ils nous ont fais confiance : tu mettra les avis google, trsutpilot , etc etc , + possibilité de choisir l'ordre, d'en afficher / cacher etc , si il y en a trop , réduire a 6 + bouton affciher +  , 
+
+deja fait : 
+❯ check et faigt : C:\Users\SMIR\Desktop\EarthSanitation\step1.txt ; sans oublier de modifier suivi-proejt.md  
+
+● Read(step1.txt)
+  ⎿  Read 22 lines
+
+● Read(suivi-proejt.md)
+  ⎿  Error reading file
+
+● Search(pattern: "**/suivi*.md")
+  ⎿  Found 0 files
+
+● Search(pattern: "**/*.md")
+  ⎿  Found 100 files (ctrl+o to expand)
+
+● Le fichier suivi-proejt.md n'existe pas encore. Je vais le créer. Laisse-moi d'abord comprendre la structure du projet pour bien   
+  contextualiser.
+
+● Read(DEVIS.md)
+  ⎿  Read 59 lines
+
+● Search(pattern: "C:\Users\SMIR\Desktop\EarthSanitation\*.txt")
+  ⎿  Found 19 files (ctrl+o to expand)
+
+● Bien, j'ai lu le step1.txt. C'est la liste des plateformes/annuaires pour l'interface admin. Laisse-moi explorer rapidement le     
+  projet pour voir ce qui existe déjà côté admin, puis je crée le fichier suivi-proejt.md.
+
+● Explore(Explore admin dashboard structure) Haiku 4.5
+  ⎿  Done (13 tool uses · 27.5k tokens · 2m 8s)
+
+● Bien, le projet est déjà bien avancé. La section présence en ligne et avis existent déjà dans le dashboard admin. Maintenant je    
+  vais vérifier ce qui dans step1.txt est déjà implémenté et ce qui manque, puis créer le suivi-proejt.md.
+
+● Read(src\data\platforms.ts)
+  ⎿  Read 35 lines
+
+● Read(src\app\admin\reviews\page.tsx)
+  ⎿  Read 81 lines
+
+● OK, j'ai maintenant une vue complète. Voici le bilan de step1.txt et je crée le fichier de suivi.
+
+  Analyse de step1.txt vs ce qui existe :
+
+  Plateformes — URLs à mettre à jour dans platforms.ts :
+
+  Les URLs fournies dans step1.txt ne sont pas encore intégrées pour la plupart. Je vais les ajouter.
+
+● Update(src\data\platforms.ts)
+  ⎿  Added 1 line, removed 1 line
+       8
+       9  export const platforms: Platform[] = [
+      10    { id: 'google', name: 'Google Business Profile', category: 'reviews', profileUrl:                                                  'https://www.google.com/maps/place/Earth+Sanitation/@43.6018194,3.8330498' },
+      11 -  { id: 'facebook', name: 'Facebook', category: 'social' },                                                                
+      11 +  { id: 'facebook', name: 'Facebook', category: 'social',
+         +profileUrl: 'https://www.facebook.com/profile.php?id=61574835776982' },                                                    
+      12    { id: 'instagram', name: 'Instagram', category: 'social' },
+      13    { id: 'linkedin', name: 'LinkedIn', category: 'social' },
+      14    { id: 'tripadvisor', name: 'Tripadvisor', category: 'reviews' },
+
+● Update(src\data\platforms.ts)                
+  ⎿  Added 1 line, removed 1 line
+      13    { id: 'linkedin', name: 'LinkedIn', category: 'social' },                                                                      14    { id: 'tripadvisor', name: 'Tripadvisor', category: 'reviews' },
+      15    { id: 'x', name: 'X (ex-Twitter)', category: 'social' },                                                                       16 -  { id: 'pagesjaunes', name: 'PagesJaunes', category: 'directory', profileUrl: 'https://www.pagesjaunes.fr/pros/    
+         -63498498' },                                                                                                               
+      16 +  { id: 'pagesjaunes', name: 'PagesJaunes', category: 'directory', profileUrl: 'https://www.pagesjaunes.fr/pros/    
+         +58439530?at_medium=affiliate&at_campaign=YAHOO&at_creation=&at_variant=NAVIGATION&at_format=FD' },                         
+      17    { id: 'qwant', name: 'Qwant', category: 'directory' },
+      18    { id: 'apple-plans', name: 'Apple Plans', category: 'maps' },
+      19    { id: 'yahoo', name: 'Yahoo', category: 'directory' },
+
+● Update(src\data\platforms.ts)                
+  ⎿  Added 1 line, removed 1 line
+      14    { id: 'tripadvisor', name: 'Tripadvisor', category: 'reviews' },                                                               15    { id: 'x', name: 'X (ex-Twitter)', category: 'social' },
+      16    { id: 'pagesjaunes', name: 'PagesJaunes', category: 'directory', profileUrl: 'https://www.pagesjaunes.fr/pros/584                  39530?at_medium=affiliate&at_campaign=YAHOO&at_creation=&at_variant=NAVIGATION&at_format=FD' },
+      17 -  { id: 'qwant', name: 'Qwant', category: 'directory' },                                                                   
+      17 +  { id: 'qwant', name: 'Qwant', category: 'directory', profileUrl:
+         +'https://www.qwant.com/?q=Earth+Sanitation+BTP+Montpellier&t=web' },                                                       
+      18    { id: 'apple-plans', name: 'Apple Plans', category: 'maps' },
+      19    { id: 'yahoo', name: 'Yahoo', category: 'directory' },
+      20    { id: 'mappy', name: 'Mappy', category: 'maps' },
+
+● Update(src\data\platforms.ts)                
+  ⎿  Added 1 line, removed 1 line
+      16    { id: 'pagesjaunes', name: 'PagesJaunes', category: 'directory', profileUrl: 'https://www.pagesjaunes.fr/pros/584                  39530?at_medium=affiliate&at_campaign=YAHOO&at_creation=&at_variant=NAVIGATION&at_format=FD' },
+      17    { id: 'qwant', name: 'Qwant', category: 'directory', profileUrl:                                                                   'https://www.qwant.com/?q=Earth+Sanitation+BTP+Montpellier&t=web' },
+      18    { id: 'apple-plans', name: 'Apple Plans', category: 'maps' },                                                            
+      19 -  { id: 'yahoo', name: 'Yahoo', category: 'directory' },                                                                 
+      19 +  { id: 'yahoo', name: 'Yahoo', category: 'directory', profileUrl:
+         +'https://fr.search.yahoo.com/search?p=Earth%20Sanitation%20BTP%20Montpellier' },                                           
+      20    { id: 'mappy', name: 'Mappy', category: 'maps' },
+      21    { id: 'cylex', name: 'Cylex', category: 'directory' },
+      22    { id: 'foursquare', name: 'Foursquare', category: 'maps' },
+
+● Update(src\data\platforms.ts)                            
+  ⎿  Added 1 line, removed 1 line
+      17    { id: 'qwant', name: 'Qwant', category: 'directory', profileUrl:                                                                   'https://www.qwant.com/?q=Earth+Sanitation+BTP+Montpellier&t=web' },
+      18    { id: 'apple-plans', name: 'Apple Plans', category: 'maps' },                                                                  19    { id: 'yahoo', name: 'Yahoo', category: 'directory', profileUrl:                                                         
+          'https://fr.search.yahoo.com/search?p=Earth%20Sanitation%20BTP%20Montpellier' },                                                 20 -  { id: 'mappy', name: 'Mappy', category: 'maps' },                                                                        
+      20 +  { id: 'mappy', name: 'Mappy', category: 'maps', profileUrl: 'https://fr.mappy.com/poi/67918ae102c89b5f7ff6d543' },       
+      21    { id: 'cylex', name: 'Cylex', category: 'directory' },
+      22    { id: 'foursquare', name: 'Foursquare', category: 'maps' },
+      23    { id: 'here', name: 'Here', category: 'maps' },
+
+● Update(src\data\platforms.ts)                
+  ⎿  Added 1 line, removed 1 line
+      18    { id: 'apple-plans', name: 'Apple Plans', category: 'maps' },                                                                  19    { id: 'yahoo', name: 'Yahoo', category: 'directory', profileUrl:
+          'https://fr.search.yahoo.com/search?p=Earth%20Sanitation%20BTP%20Montpellier' },                                                 20    { id: 'mappy', name: 'Mappy', category: 'maps', profileUrl: 'https://fr.mappy.com/poi/67918ae102c89b5f7ff6d543'   
+          },                                                                                                                         
+      21 -  { id: 'cylex', name: 'Cylex', category: 'directory' },
+      21 +  { id: 'cylex', name: 'Cylex', category: 'directory', profileUrl:                                                         
+         +'https://www.cylex-locale.fr/entreprises/earth-sanitation-btp-15141499.html' },                                            
+      22    { id: 'foursquare', name: 'Foursquare', category: 'maps' },
+      23    { id: 'here', name: 'Here', category: 'maps' },
+      24    { id: 'horairesdouverture24', name: 'horairesdouverture24.fr', category: 'directory' },
+  ⎿  You've hit your limit · resets 8pm (Europe/Paris)
+                                               
+✻ Cooked for 4m 14s

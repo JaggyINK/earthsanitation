@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --use-npm)",
+      "Bash(npm install:*)",
+      "Bash(npx next build)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx next dev:*)",
+      "Bash(cmd /c:*)",
+      "WebFetch(domain:www.earthsanitation.fr)",
+      "WebSearch",
+      "WebFetch(domain:www.pagesjaunes.fr)",
+      "Bash(powershell -Command:*)",
+      "Bash(powershell.exe -File - <<'PS1'\n$conns = Get-NetTCPConnection -LocalPort 3002 -ErrorAction SilentlyContinue\nforeach \\($c in $conns\\) { Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue }\nWrite-Host \"Done\"\nPS1)",
+      "WebFetch(domain:www.google.com)",
+      "WebFetch(domain:share.google)"
+    ]
+  }
+}
