@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import PhoneButton from '@/components/shared/PhoneButton'
+import ReviewsSection from '@/components/shared/ReviewsSection'
 import { services } from '@/data/services'
 import { cities } from '@/data/cities'
 import { PHONE_HREF } from '@/lib/utils'
@@ -69,7 +70,6 @@ export default function Home() {
             {services.map(service => (
               <Link key={service.slug} href={`/services/${service.slug}`}>
                 <Card hover className="h-full p-0 overflow-hidden">
-                  {/* Image zone — ajouter les photos dans /public/images/services/ */}
                   <div className="relative w-full h-48 bg-gradient-to-br from-sage/15 to-forest/10 flex items-center justify-center">
                     <div className="text-center">
                       <svg className="w-10 h-10 text-sage/30 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -248,20 +248,23 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Reviews */}
+      <ReviewsSection />
+
       {/* CTA */}
-      <section className="py-16 lg:py-20 bg-cream">
+      <section className="py-16 lg:py-20 bg-forest text-cream">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-heading font-bold text-forest mb-4">
+          <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-4">
             Besoin d&apos;un devis ?
           </h2>
-          <p className="text-sage mb-8 max-w-xl mx-auto">
+          <p className="text-cream/80 mb-8 max-w-xl mx-auto">
             Décrivez-nous votre problème et recevez un devis gratuit sous 24h.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button href="/devis" size="lg">
+            <Button href="/devis" size="lg" className="bg-gold hover:bg-gold/90 text-white">
               Demander un devis gratuit
             </Button>
-            <Button href="/contact" variant="outline" size="lg">
+            <Button href="/contact" variant="outline" size="lg" className="bg-white hover:bg-gold/90 text-forest">
               Nous contacter
             </Button>
           </div>

@@ -10,6 +10,7 @@ const navLinks = [
   { href: '/', label: 'Accueil' },
   { href: '/urgence', label: 'Urgence 24/7' },
   { href: '/services/debouchage-canalisations', label: 'Services', children: services.map(s => ({ href: `/services/${s.slug}`, label: s.shortTitle })) },
+  { href: '/blog', label: 'Blog' },
   { href: '/a-propos', label: 'À propos' },
   { href: '/contact', label: 'Contact' },
   { href: '/devis', label: 'Devis gratuit' },

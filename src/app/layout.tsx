@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
-import StickyBottomBar from '@/components/layout/StickyBottomBar'
 import { LocalBusinessSchema } from '@/components/seo/StructuredData'
 import TrackingProvider from '@/components/shared/TrackingProvider'
 import AuthProvider from '@/components/shared/AuthProvider'
+import ConditionalLayout from '@/components/layout/ConditionalLayout'
 
 export const metadata: Metadata = {
   title: {
@@ -34,10 +32,7 @@ export default function RootLayout({
         <AuthProvider>
           <TrackingProvider>
             <LocalBusinessSchema />
-            <Header />
-            <main>{children}</main>
-            <Footer />
-            <StickyBottomBar />
+            <ConditionalLayout>{children}</ConditionalLayout>
           </TrackingProvider>
         </AuthProvider>
       </body>

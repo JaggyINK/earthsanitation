@@ -90,3 +90,76 @@ export function BreadcrumbSchema({ items }: { items: { name: string; href: strin
     />
   )
 }
+
+interface BlogPost {
+  id: string
+  title: string
+  slug: string
+  content: string
+  excerpt: string | null
+  published: boolean
+  publishedAt: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export function ArticleSchema({ article }: { article: BlogPost }) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.excerpt || article.title,
+    datePublished: article.publishedAt || article.createdAt,
+    dateModified: article.updatedAt,
+    url: `https://earth-sanitation.fr/blog/${article.slug}`,
+    author: {
+      '@type': 'Organization',
+      name: COMPANY_NAME,
+      url: 'https://earth-sanitation.fr',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: COMPANY_NAME,
+      url: 'https://earth-sanitation.fr',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://earth-sanitation.fr/blog/${article.slug}`,
+    },
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
+export function ArticleListSchema({ articles }: { articles: BlogPost[] }) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: `Blog ${COMPANY_NAME}`,
+    description: "Conseils et articles sur l'assainissement, le débouchage et l'entretien des canalisations.",
+    url: 'https://earth-sanitation.fr/blog',
+    publisher: {
+      '@type': 'Organization',
+      name: COMPANY_NAME,
+    },
+    blogPost: articles.map(article => ({
+      '@type': 'BlogPosting',
+      headline: article.title,
+      description: article.excerpt || article.title,
+      datePublished: article.publishedAt || article.createdAt,
+      url: `https://earth-sanitation.fr/blog/${article.slug}`,
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}

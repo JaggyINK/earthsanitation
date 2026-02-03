@@ -52,23 +52,33 @@
 - [x] Dashboard stats (4 StatCards + 2 graphiques Recharts bar/line + sources trafic)
 - [x] Gestion leads (table filtrable par statut/type + export CSV)
 - [x] Platform presence checker (24 plateformes, clic statut, liens vers fiches, ajout/modif URL)
-- [x] Avis clients (note réelle 5.0/5 — 5 avis Google, prêt pour Google Places API)
+- [x] Avis clients complet :
+  - [x] Store centralisé (`reviews-store.ts`) avec CRUD complet
+  - [x] API routes `/api/reviews` et `/api/reviews/[id]`
+  - [x] Admin : ajout/édition/suppression d'avis manuels
+  - [x] Admin : gestion photos profil + photos clients (URLs)
+  - [x] Admin : choix source (Google, Facebook, Trustpilot, Pages Jaunes, Manuel)
+  - [x] Admin : drag & drop pour réordonner les avis
+  - [x] Admin : toggle visibilité + badge vérifié
+  - [x] Admin : stats (nombre, moyenne, distribution)
+  - [x] Homepage : section ReviewsSection entre "Pourquoi nous choisir" et CTA
+  - [x] Affichage jusqu'à 6 avis avec icônes sources, badges vérifiés, photos
 - [x] Settings admin (infos entreprise, clés API, changement mot de passe)
 - [x] Données réelles : dashboard nettoyé (plus de fausses données, états vides + vraies infos Google)
 - [x] Mentions légales complétées (SIRET, adresse, raison sociale réels)
 - [x] Sécurité vérifiée (middleware withAuth, JWT, CSRF NextAuth, secret env)
 
 ## Phase 6 — Blog & SEO final
-- [ ] Système blog (CRUD admin + pages publiques)
-- [ ] Sitemap dynamique + robots.txt
-- [ ] Pages 404/500 custom stylées
+- [x] Système blog (CRUD admin + pages publiques)
+- [x] Sitemap dynamique + robots.txt
+- [x] Pages 404/500 custom stylées
 
 ## Phase 7 — Polish & Livraison
-- [ ] Animations Framer Motion
-- [ ] Optimisation performance (images, lazy loading)
-- [ ] Tests cross-browser / mobile
-- [ ] Audit Lighthouse > 90
-- [ ] Déploiement Vercel
+- [x] Animations CSS (transitions hover sur cartes et boutons, animate-pulse sur badge urgence)
+- [x] Optimisation performance (images avif/webp, lazy loading natif Next.js)
+- [ ] Tests cross-browser / mobile (à faire manuellement)
+- [ ] Audit Lighthouse > 90 (à faire via navigateur)
+- [ ] Déploiement Vercel (nécessite compte)
 
 ---
 

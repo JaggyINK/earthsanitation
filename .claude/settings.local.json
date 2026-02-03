@@ -13,7 +13,9 @@
       "Bash(powershell -Command:*)",
       "Bash(powershell.exe -File - <<'PS1'\n$conns = Get-NetTCPConnection -LocalPort 3002 -ErrorAction SilentlyContinue\nforeach \\($c in $conns\\) { Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue }\nWrite-Host \"Done\"\nPS1)",
       "WebFetch(domain:www.google.com)",
-      "WebFetch(domain:share.google)"
+      "WebFetch(domain:share.google)",
+      "Bash(npm run build:*)",
+      "Bash(curl:*)"
     ]
   }
 }
