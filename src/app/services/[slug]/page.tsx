@@ -28,20 +28,38 @@ export default function ServicePage({ params }: Props) {
 
   return (
     <>
-      <section className="bg-forest text-cream py-14 lg:py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs
-            items={[
-              { name: 'Services', href: '/#services' },
-              { name: service.shortTitle, href: `/services/${service.slug}` },
-            ]}
-          />
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold mb-4">
-            {service.title}
-          </h1>
-          <p className="text-cream/80 text-lg max-w-2xl">{service.description}</p>
-        </div>
-      </section>
+<section className="relative h-[420px]">
+  {/* Image de fond dynamique selon le service */}
+  <div
+    className="absolute inset-0 bg-cover bg-center"
+    style={{ backgroundImage: `url(${service.image})` }}
+  />
+
+  {/* Overlay sombre pour lisibilité */}
+  <div className="absolute inset-0 bg-black/20" />
+
+  {/* Bande verte avec contenu */}
+  <div className="relative z-10 h-full flex items-end">
+    <div className="w-full bg-forest/90 backdrop-blur-sm py-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <Breadcrumbs
+          items={[
+            { name: 'Services', href: '/#services' },
+            { name: service.shortTitle, href: `/services/${service.slug}` },
+          ]}
+        />
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-cream">
+          {service.title}
+        </h1>
+        <p className="text-cream/80 mt-2 max-w-2xl mx-auto">
+          {service.description}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
       <section className="py-14 lg:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

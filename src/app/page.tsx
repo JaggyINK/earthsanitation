@@ -6,35 +6,60 @@ import ReviewsSection from '@/components/shared/ReviewsSection'
 import { services } from '@/data/services'
 import { cities } from '@/data/cities'
 import { PHONE_HREF } from '@/lib/utils'
+import Image from 'next/image'
+
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-forest text-cream overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-sage)_0%,_transparent_60%)] opacity-40" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-28">
-          <div className="max-w-3xl">
-            <span className="inline-block bg-red-600 text-white text-sm font-bold px-4 py-1.5 rounded-full mb-6 animate-pulse">
-              Urgence 24h/24 — 7j/7
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold leading-tight mb-6">
-              Débouchage &amp; Assainissement
-              <span className="text-gold block mt-2">Intervention rapide</span>
-            </h1>
-            <p className="text-lg sm:text-xl text-cream/80 mb-8 max-w-2xl">
-              Canalisations bouchées ? Problème d&apos;assainissement ? Nos experts interviennent
-              en urgence sur Montpellier, Nîmes et dans un rayon de 100 km.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <PhoneButton variant="emergency" />
-              <Button href="/devis" variant="outline" size="lg" className="border-cream text-cream hover:bg-cream hover:text-forest">
-                Devis gratuit
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section className="relative text-cream overflow-hidden">
+  {/* Image de fond */}
+  <Image
+    src="/images/hero-bg.webp"
+    alt="Débouchage et assainissement"
+    fill
+    priority
+    className="object-cover"
+  />
+
+  {/* Overlay vert */}
+  <div className="absolute inset-0 bg-forest/80" />
+
+  {/* Dégradé existant */}
+  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-sage)_0%,_transparent_60%)] opacity-40" />
+
+  {/* Contenu */}
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-28">
+    <div className="max-w-3xl">
+      <span className="inline-block bg-red-600 text-white text-sm font-bold px-4 py-1.5 rounded-full mb-6 animate-pulse">
+        Urgence 24h/24 — 7j/7
+      </span>
+
+      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold leading-tight mb-6">
+        Débouchage &amp; Assainissement
+        <span className="text-gold block mt-2">Intervention rapide</span>
+      </h1>
+
+      <p className="text-lg sm:text-xl text-cream/80 mb-8 max-w-2xl">
+        Canalisations bouchées ? Problème d&apos;assainissement ? Nos experts interviennent
+        en urgence sur Montpellier, Nîmes et dans un rayon de 100 km.
+      </p>
+
+      <div className="flex flex-col sm:flex-row gap-4">
+        <PhoneButton variant="emergency" />
+        <Button href="/devis" size="lg"
+        className="
+        bg-sky-400 text-forest
+        hover:bg-sky-500
+        active:bg-sky-600
+        shadow-lgtransition-all">
+          Devis gratuit
+          </Button>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Trust Signals */}
       <section className="bg-white border-b border-sand/30">
@@ -70,14 +95,13 @@ export default function Home() {
             {services.map(service => (
               <Link key={service.slug} href={`/services/${service.slug}`}>
                 <Card hover className="h-full p-0 overflow-hidden">
-                  <div className="relative w-full h-48 bg-gradient-to-br from-sage/15 to-forest/10 flex items-center justify-center">
-                    <div className="text-center">
-                      <svg className="w-10 h-10 text-sage/30 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
-                      </svg>
-                      <span className="text-xs text-sage/40 font-medium">{service.shortTitle}</span>
+                  <div className="relative w-full h-48 overflow-hidden">
+                    <Image src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover"
+                    />
                     </div>
-                  </div>
                   <div className="p-6">
                     <h3 className="font-heading font-bold text-lg text-forest mb-2">
                       {service.shortTitle}

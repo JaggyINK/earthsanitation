@@ -15,7 +15,7 @@ export const services: Service[] = [
     shortTitle: 'Débouchage',
     description: "Débouchage d'urgence 24h/24 de vos canalisations, éviers, WC et douches. Intervention rapide par injection haute pression.",
     keyword: 'débouchage canalisations',
-    image: '/images/services/debouchage.jpg',
+    image: '/images/services/debouchage.webp',
     icon: 'wrench',
   },
   {
@@ -24,7 +24,7 @@ export const services: Service[] = [
     shortTitle: 'Curage',
     description: "Curage haute pression de vos canalisations pour un nettoyage en profondeur et la prévention des bouchons récurrents.",
     keyword: 'curage canalisations',
-    image: '/images/services/curage.jpg',
+    image: '/images/services/curage.webp',
     icon: 'water',
   },
   {
@@ -33,7 +33,7 @@ export const services: Service[] = [
     shortTitle: 'Inspection caméra',
     description: "Diagnostic précis par caméra vidéo pour identifier fissures, racines et obstructions dans vos canalisations.",
     keyword: 'inspection caméra canalisation',
-    image: '/images/services/inspection.jpg',
+    image: '/images/services/inspection.webp',
     icon: 'camera',
   },
   {
@@ -42,7 +42,7 @@ export const services: Service[] = [
     shortTitle: 'Assainissement',
     description: "Pose de fosses septiques, fosses toutes eaux, microstations et filtres compacts. Mise aux normes et entretien.",
     keyword: 'assainissement individuel collectif',
-    image: '/images/services/assainissement.jpg',
+    image: '/images/services/assainissement.webp',
     icon: 'shield',
   },
   {
@@ -51,7 +51,7 @@ export const services: Service[] = [
     shortTitle: 'Vidange',
     description: "Vidange et pompage de fosses septiques, fosses toutes eaux et bacs à graisse. Respect des normes environnementales.",
     keyword: 'vidange fosse septique',
-    image: '/images/services/vidange.jpg',
+    image: '/images/services/vidange.webp',
     icon: 'truck',
   },
   {
@@ -60,7 +60,7 @@ export const services: Service[] = [
     shortTitle: 'Travaux VRD',
     description: "Branchements neufs et existants, création et raccordement de réseaux d'assainissement. Depuis 2006.",
     keyword: 'travaux VRD canalisations',
-    image: '/images/services/vrd.jpg',
+    image: '/images/services/vrd.webp',
     icon: 'hardhat',
   },
   {
@@ -69,7 +69,7 @@ export const services: Service[] = [
     shortTitle: 'Sans tranchée',
     description: "Technique innovante de pose de canalisations sans tranchée. Moins de dégâts, moins de nuisances, résultat durable.",
     keyword: 'pose réseaux sans tranchée',
-    image: '/images/services/sans-tranchee.jpg',
+    image: '/images/services/sans-tranchee.webp',
     icon: 'tunnel',
   },
 ]
