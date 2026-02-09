@@ -28,7 +28,7 @@ export default function ServicePage({ params }: Props) {
 
   return (
     <>
-<section className="relative h-[420px]">
+<section className="relative h-105">
   {/* Image de fond dynamique selon le service */}
   <div
     className="absolute inset-0 bg-cover bg-center"
