@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(request: Request) {
   try {
@@ -12,11 +13,9 @@ export async function POST(request: Request) {
     const userAgent = request.headers.get('user-agent') || ''
     const device = /Mobile|Android|iPhone/i.test(userAgent) ? 'mobile' : 'desktop'
 
-    // TODO: Save to database when PostgreSQL connected
-    // import { prisma } from '@/lib/prisma'
-    // await prisma.phoneClick.create({ data: { page, device, source } })
-
-    console.log('Phone click:', { page, device, source })
+    await prisma.phoneClick.create({
+      data: { page, device, source: source || null },
+    })
 
     return NextResponse.json({ success: true })
   } catch {

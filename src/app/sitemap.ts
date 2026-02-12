@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next'
 import { services } from '@/data/services'
 import { cities } from '@/data/cities'
-import { getPublishedPosts } from '@/lib/blog-store'
+import { prisma } from '@/lib/prisma'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = 'force-dynamic'
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://earth-sanitation.fr'
   const now = new Date()
 
@@ -81,11 +83,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  // Pages blog
-  const blogPosts = getPublishedPosts()
+  // Pages blog (depuis la BDD)
+  const blogPosts = await prisma.blogPost.findMany({
+    where: { published: true },
+    select: { slug: true, updatedAt: true },
+  })
   const blogPages: MetadataRoute.Sitemap = blogPosts.map(post => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.updatedAt),
+    lastModified: post.updatedAt,
     changeFrequency: 'monthly',
     priority: 0.6,
   }))

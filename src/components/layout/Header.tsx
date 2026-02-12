@@ -60,7 +60,7 @@ export default function Header() {
                       </svg>
                     </button>
                     <div
-                      className={`absolute top-full left-0 bg-white rounded-xl shadow-lg py-2 min-w-[220px] transition-all duration-200 ${servicesOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+                      className={`absolute top-full left-0 bg-white rounded-xl shadow-lg py-2 min-w-55 transition-all duration-200 ${servicesOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
                       onMouseEnter={() => setServicesOpen(true)}
                       onMouseLeave={() => setServicesOpen(false)}
                     >

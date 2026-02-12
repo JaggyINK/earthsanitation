@@ -4,7 +4,8 @@ node_modules/
 .env.local
 .env.production
 *.log
+tsconfig.tsbuildinfo
 
-# Uploads (images converties en WebP)
+# Uploads (photos leads)
 public/uploads/
 !public/uploads/.gitkeep

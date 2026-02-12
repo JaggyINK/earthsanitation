@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { getReviewById, updateReview, deleteReview } from '@/lib/reviews-store'
+import { prisma } from '@/lib/prisma'
 
 // GET - Récupérer un avis par ID
 export async function GET(
@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const review = getReviewById(id)
+  const review = await prisma.review.findUnique({ where: { id } })
 
   if (!review) {
     return NextResponse.json({ error: 'Avis non trouvé' }, { status: 404 })
@@ -47,24 +47,28 @@ export async function PUT(
       order,
     } = body
 
-    const updatedReview = updateReview(id, {
-      authorName,
-      authorPhoto,
-      rating: rating !== undefined ? parseInt(rating, 10) : undefined,
-      text,
-      date,
-      source,
-      sourceUrl,
-      photos,
-      verified,
-      visible,
-      order,
+    const data: Record<string, unknown> = {}
+    if (authorName !== undefined) data.authorName = authorName
+    if (authorPhoto !== undefined) data.authorPhoto = authorPhoto
+    if (rating !== undefined) data.rating = Math.min(5, Math.max(1, parseInt(rating, 10)))
+    if (text !== undefined) data.text = text
+    if (date !== undefined) data.time = new Date(date)
+    if (source !== undefined) data.source = source
+    if (sourceUrl !== undefined) data.sourceUrl = sourceUrl
+    if (photos !== undefined) data.photos = photos
+    if (verified !== undefined) data.verified = verified
+    if (visible !== undefined) data.visible = visible
+    if (order !== undefined) data.order = order
+
+    const updatedReview = await prisma.review.update({
+      where: { id },
+      data,
     })
 
     return NextResponse.json(updatedReview)
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Erreur lors de la mise à jour'
-    const status = message === 'Avis non trouvé' ? 404 : 400
+    const status = message.includes('not found') ? 404 : 400
     return NextResponse.json({ error: message }, { status })
   }
 }
@@ -81,11 +85,11 @@ export async function DELETE(
   }
 
   const { id } = await params
-  const deleted = deleteReview(id)
 
-  if (!deleted) {
+  try {
+    await prisma.review.delete({ where: { id } })
+    return NextResponse.json({ success: true })
+  } catch {
     return NextResponse.json({ error: 'Avis non trouvé' }, { status: 404 })
   }
-
-  return NextResponse.json({ success: true })
 }

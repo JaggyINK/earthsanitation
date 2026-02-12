@@ -3,16 +3,18 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import PhoneButton from '@/components/shared/PhoneButton'
-import { getPostBySlug, getPublishedPosts } from '@/lib/blog-store'
+import { prisma } from '@/lib/prisma'
 import { ArticleSchema } from '@/components/seo/StructuredData'
 
 interface PageProps {
   params: Promise<{ slug: string }>
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const post = getPostBySlug(slug)
+  const post = await prisma.blogPost.findUnique({ where: { slug } })
 
   if (!post || !post.published) {
     return {
@@ -27,15 +29,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${post.title} | Earth Sanitation`,
       description: post.excerpt || `Découvrez notre article : ${post.title}`,
       type: 'article',
-      publishedTime: post.publishedAt || undefined,
-      modifiedTime: post.updatedAt,
+      publishedTime: post.publishedAt?.toISOString() || undefined,
+      modifiedTime: post.updatedAt.toISOString(),
     },
   }
-}
-
-export function generateStaticParams() {
-  const posts = getPublishedPosts()
-  return posts.map(post => ({ slug: post.slug }))
 }
 
 // Fonction pour convertir le Markdown basique en HTML
@@ -64,7 +61,7 @@ function markdownToHtml(content: string): string {
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params
-  const post = getPostBySlug(slug)
+  const post = await prisma.blogPost.findUnique({ where: { slug } })
 
   if (!post || !post.published) {
     notFound()
@@ -72,9 +69,17 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const htmlContent = markdownToHtml(post.content)
 
+  // Serialize for StructuredData
+  const serializedPost = {
+    ...post,
+    publishedAt: post.publishedAt?.toISOString() ?? null,
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+  }
+
   return (
     <>
-      <ArticleSchema article={post} />
+      <ArticleSchema article={serializedPost} />
 
       {/* Header */}
       <section className="bg-forest text-cream py-12 lg:py-16">
@@ -87,7 +92,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             className="mb-6 text-cream/60"
           />
           <time
-            dateTime={post.publishedAt || post.createdAt}
+            dateTime={(post.publishedAt || post.createdAt).toISOString()}
             className="text-cream/60 text-sm mb-4 block"
           >
             Publié le {new Date(post.publishedAt || post.createdAt).toLocaleDateString('fr-FR', {
@@ -122,7 +127,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           {/* Author/Company */}
           <div className="mt-8 p-6 bg-cream rounded-xl">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-forest rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-forest rounded-full flex items-center justify-center shrink-0">
                 <span className="text-cream font-bold">ES</span>
               </div>
               <div>

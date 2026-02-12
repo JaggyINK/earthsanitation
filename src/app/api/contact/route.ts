@@ -1,12 +1,18 @@
 import { NextResponse } from 'next/server'
 import { contactSchema } from '@/lib/validations'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
+
+    // Normalize: empty strings → undefined so Zod .optional() works
+    if (!body.email) delete body.email
+
     const result = contactSchema.safeParse(body)
 
     if (!result.success) {
+      console.error('Validation errors:', result.error.flatten().fieldErrors)
       return NextResponse.json(
         { error: 'Données invalides.', details: result.error.flatten().fieldErrors },
         { status: 400 }
@@ -15,14 +21,30 @@ export async function POST(request: Request) {
 
     const { name, phone, email, message, type } = result.data
 
-    // TODO: Save to database when PostgreSQL connected
-    // import { prisma } from '@/lib/prisma'
-    // await prisma.lead.create({ data: { name, phone, email, message, type, page: request.headers.get('referer') } })
+    const lead = await prisma.lead.create({
+      data: {
+        name,
+        phone,
+        email: email || null,
+        message,
+        type,
+        service: body.service || null,
+        city: body.city || null,
+        address: body.address || null,
+        urgency: body.urgency || null,
+        clientType: body.clientType || null,
+        company: body.company || null,
+        siret: body.siret || null,
+        photos: body.photos || [],
+        page: request.headers.get('referer') || null,
+      },
+    })
 
-    console.log('New lead:', { name, phone, email, message, type })
+    console.log('New lead saved:', lead.id)
 
-    return NextResponse.json({ success: true })
-  } catch {
+    return NextResponse.json({ success: true, id: lead.id })
+  } catch (error) {
+    console.error('Contact API error:', error)
     return NextResponse.json(
       { error: 'Erreur serveur.' },
       { status: 500 }

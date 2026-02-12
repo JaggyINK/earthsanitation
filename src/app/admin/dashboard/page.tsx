@@ -1,8 +1,48 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import StatCard from '@/components/admin/StatCard'
 
+interface Stats {
+  visitsThisWeek: number
+  phoneClicksThisWeek: number
+  leadsThisWeek: number
+  leadsTotal: number
+  reviewCount: number
+  avgRating: number
+  visitsTrend: number
+  clicksTrend: number
+  leadsTrend: number
+  recentLeads: { id: string; name: string; type: string; status: string; createdAt: string }[]
+}
+
+const typeLabels: Record<string, string> = {
+  CONTACT: 'Contact',
+  QUOTE: 'Devis',
+  EMERGENCY: 'Urgence',
+}
+
+const statusColors: Record<string, string> = {
+  NEW: 'bg-yellow-100 text-yellow-800',
+  CONTACTED: 'bg-blue-100 text-blue-800',
+  CONVERTED: 'bg-green-100 text-green-800',
+  LOST: 'bg-red-100 text-red-800',
+}
+
 export default function DashboardPage() {
+  const [stats, setStats] = useState<Stats | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/stats')
+      .then(r => r.json())
+      .then(data => {
+        setStats(data)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
+
   return (
     <div>
       <div className="mb-8">
@@ -14,56 +54,75 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
           title="Visites cette semaine"
-          value="—"
-          subtitle="En attente de données"
+          value={loading ? '...' : stats?.visitsThisWeek ?? 0}
+          subtitle={loading ? '' : `${stats?.leadsTotal ?? 0} leads au total`}
+          trend={stats?.visitsTrend !== undefined ? { value: stats.visitsTrend, label: 'vs semaine dernière' } : undefined}
           color="forest"
         />
         <StatCard
           title="Clics téléphone"
-          value="—"
-          subtitle="En attente de données"
+          value={loading ? '...' : stats?.phoneClicksThisWeek ?? 0}
+          subtitle="Cette semaine"
+          trend={stats?.clicksTrend !== undefined ? { value: stats.clicksTrend, label: 'vs semaine dernière' } : undefined}
           color="gold"
         />
         <StatCard
           title="Leads / Formulaires"
-          value="—"
-          subtitle="En attente de données"
+          value={loading ? '...' : stats?.leadsThisWeek ?? 0}
+          subtitle="Cette semaine"
+          trend={stats?.leadsTrend !== undefined ? { value: stats.leadsTrend, label: 'vs semaine dernière' } : undefined}
           color="sage"
         />
         <StatCard
           title="Note Google"
-          value="5.0 ★"
-          subtitle="5 avis Google"
+          value={loading ? '...' : `${stats?.avgRating ?? 0} ★`}
+          subtitle={loading ? '' : `${stats?.reviewCount ?? 0} avis`}
           color="red"
         />
       </div>
 
-      {/* Empty state for charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
-          <svg className="w-12 h-12 text-gray-200 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 13h2v8H3zm6-4h2v12H9zm6-6h2v18h-2zm6 10h2v8h-2z" />
-          </svg>
-          <h3 className="font-heading font-bold text-gray-400 mb-1">Visites &amp; Clics téléphone</h3>
-          <p className="text-sm text-gray-300">Les graphiques apparaîtront quand la base de données sera connectée.</p>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
-          <svg className="w-12 h-12 text-gray-200 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
-          </svg>
-          <h3 className="font-heading font-bold text-gray-400 mb-1">Évolution mensuelle</h3>
-          <p className="text-sm text-gray-300">Les graphiques apparaîtront quand la base de données sera connectée.</p>
-        </div>
-      </div>
-
-      {/* Info box */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-blue-800">
-        <strong>Pour activer le tableau de bord :</strong>
-        <ol className="list-decimal list-inside mt-2 space-y-1">
-          <li>Configurer la base PostgreSQL dans <code className="bg-blue-100 px-1 rounded">.env.local</code></li>
-          <li>Lancer <code className="bg-blue-100 px-1 rounded">npx prisma migrate dev</code></li>
-          <li>Les données de visites, clics et leads s&apos;afficheront automatiquement</li>
-        </ol>
+      {/* Recent leads */}
+      <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+        <h3 className="font-heading font-bold text-gray-900 mb-4">Derniers leads</h3>
+        {loading ? (
+          <p className="text-gray-400 text-sm">Chargement...</p>
+        ) : !stats?.recentLeads?.length ? (
+          <p className="text-gray-400 text-sm">Aucun lead pour le moment. Les formulaires de contact et devis alimenteront cette liste.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="text-gray-500 text-left border-b border-gray-100">
+                <tr>
+                  <th className="pb-2 font-medium">Date</th>
+                  <th className="pb-2 font-medium">Nom</th>
+                  <th className="pb-2 font-medium">Type</th>
+                  <th className="pb-2 font-medium">Statut</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {stats.recentLeads.map(lead => (
+                  <tr key={lead.id}>
+                    <td className="py-2 text-gray-500">
+                      {new Date(lead.createdAt).toLocaleDateString('fr-FR')}
+                    </td>
+                    <td className="py-2 font-medium text-gray-900">{lead.name}</td>
+                    <td className="py-2">{typeLabels[lead.type] || lead.type}</td>
+                    <td className="py-2">
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[lead.status] || ''}`}>
+                        {lead.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {stats?.recentLeads?.length ? (
+          <a href="/admin/leads" className="text-forest text-sm font-medium hover:underline mt-3 inline-block">
+            Voir tous les leads →
+          </a>
+        ) : null}
       </div>
     </div>
   )

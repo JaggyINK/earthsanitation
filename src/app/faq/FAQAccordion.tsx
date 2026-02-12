@@ -1,7 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import type { FAQ } from '@/data/faq'
+
+interface FAQ {
+  question: string
+  answer: string
+}
 
 export default function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
   const [open, setOpen] = useState<number | null>(null)

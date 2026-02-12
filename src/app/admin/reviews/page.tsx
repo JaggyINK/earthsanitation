@@ -690,9 +690,9 @@ export default function AdminReviewsPage() {
               >
                 <div className="flex flex-col lg:flex-row lg:items-start gap-4">
                   {/* Ordre + Avatar */}
-                  <div className="flex items-center gap-3 lg:w-48 flex-shrink-0">
+                  <div className="flex items-center gap-3 lg:w-48 shrink-0">
                     <span className="text-gray-400 text-sm w-6">#{review.order}</span>
-                    <div className="w-12 h-12 rounded-full bg-sage/20 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    <div className="w-12 h-12 rounded-full bg-sage/20 flex items-center justify-center shrink-0 overflow-hidden">
                       {review.authorPhoto ? (
                         <img src={review.authorPhoto} alt={review.authorName} className="w-full h-full object-cover" />
                       ) : (
@@ -733,7 +733,7 @@ export default function AdminReviewsPage() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-2 lg:flex-shrink-0">
+                  <div className="flex items-center gap-2 lg:shrink-0">
                     <button
                       onClick={() => toggleVisible(review)}
                       className={`p-2 rounded-lg transition-colors ${

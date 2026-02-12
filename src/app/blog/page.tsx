@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Card from '@/components/ui/Card'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
-import { getPublishedPosts } from '@/lib/blog-store'
+import { prisma } from '@/lib/prisma'
 import { ArticleListSchema } from '@/components/seo/StructuredData'
 
 export const metadata: Metadata = {
@@ -16,12 +16,25 @@ export const metadata: Metadata = {
   },
 }
 
-export default function BlogPage() {
-  const posts = getPublishedPosts()
+export const dynamic = 'force-dynamic'
+
+export default async function BlogPage() {
+  const posts = await prisma.blogPost.findMany({
+    where: { published: true },
+    orderBy: { createdAt: 'desc' },
+  })
+
+  // Serialize dates for StructuredData component
+  const serializedPosts = posts.map(p => ({
+    ...p,
+    publishedAt: p.publishedAt?.toISOString() ?? null,
+    createdAt: p.createdAt.toISOString(),
+    updatedAt: p.updatedAt.toISOString(),
+  }))
 
   return (
     <>
-      <ArticleListSchema articles={posts} />
+      <ArticleListSchema articles={serializedPosts} />
 
       {/* Header */}
       <section className="bg-forest text-cream py-12 lg:py-16">
@@ -62,7 +75,7 @@ export default function BlogPage() {
                   <Card hover className="h-full flex flex-col">
                     <div className="flex-1">
                       <time
-                        dateTime={post.publishedAt || post.createdAt}
+                        dateTime={(post.publishedAt || post.createdAt).toISOString()}
                         className="text-sm text-sage mb-3 block"
                       >
                         {new Date(post.publishedAt || post.createdAt).toLocaleDateString('fr-FR', {

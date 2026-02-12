@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
-import { PHONE_NUMBER, PHONE_HREF, COMPANY_EMAIL } from '@/lib/utils'
+import { PHONE_NUMBER, COMPANY_EMAIL, getWhatsAppUrl } from '@/lib/utils'
 import ContactFormClient from './ContactFormClient'
 
 export const metadata: Metadata = {
@@ -33,8 +33,8 @@ export default function ContactPage() {
             <div className="space-y-6">
               <div>
                 <h3 className="font-semibold text-forest mb-1">Téléphone</h3>
-                <a href={PHONE_HREF} className="text-sage hover:text-forest transition-colors text-lg">
-                  {PHONE_NUMBER}
+                <a href={getWhatsAppUrl({ type: 'contact' })} target="_blank" rel="noopener noreferrer" className="text-sage hover:text-forest transition-colors text-lg">
+                  {PHONE_NUMBER} (WhatsApp)
                 </a>
               </div>
               <div>

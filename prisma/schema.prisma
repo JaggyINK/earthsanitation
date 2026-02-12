@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Admin {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   email     String   @unique
   password  String
   name      String
@@ -29,29 +29,37 @@ enum LeadStatus {
 }
 
 model Lead {
-  id        String     @id @default(cuid())
-  name      String
-  email     String?
-  phone     String
-  message   String?
-  type      LeadType
-  status    LeadStatus @default(NEW)
-  page      String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id         String     @id @default(uuid())
+  name       String
+  email      String?
+  phone      String
+  message    String?    @db.Text
+  service    String?
+  city       String?
+  address    String?
+  urgency    String?
+  clientType String?
+  company    String?
+  siret      String?
+  photos     Json       @default("[]")
+  type       LeadType
+  status     LeadStatus @default(NEW)
+  page       String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 model PageVisit {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   path      String
-  referrer  String?
-  userAgent String?
+  referrer  String?  @db.Text
+  userAgent String?  @db.Text
   ipHash    String?
   createdAt DateTime @default(now())
 }
 
 model PhoneClick {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   page      String
   device    String?
   source    String?
@@ -59,25 +67,32 @@ model PhoneClick {
 }
 
 model Review {
-  id         String   @id @default(cuid())
-  authorName String
-  rating     Int
-  text       String?
-  time       DateTime
-  source     String   @default("google")
-  createdAt  DateTime @default(now())
+  id          String   @id @default(uuid())
+  authorName  String
+  authorPhoto String?
+  rating      Int
+  text        String?  @db.Text
+  time        DateTime
+  source      String   @default("google")
+  sourceUrl   String?
+  photos      Json     @default("[]")
+  verified    Boolean  @default(false)
+  visible     Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model BlogPost {
-  id          String   @id @default(cuid())
+  id          String    @id @default(uuid())
   title       String
-  slug        String   @unique
-  content     String
-  excerpt     String?
-  published   Boolean  @default(false)
+  slug        String    @unique
+  content     String    @db.LongText
+  excerpt     String?   @db.Text
+  published   Boolean   @default(false)
   publishedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 enum PlatformStatus {
@@ -87,15 +102,26 @@ enum PlatformStatus {
 }
 
 model PlatformPresence {
-  id        String         @id @default(cuid())
+  id        String         @id @default(uuid())
   name      String         @unique
   url       String?
   status    PlatformStatus @default(TO_CHECK)
   updatedAt DateTime       @updatedAt
 }
 
+model FAQ {
+  id        String   @id @default(uuid())
+  question  String   @db.Text
+  answer    String   @db.Text
+  service   String?
+  order     Int      @default(0)
+  visible   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model DailyStats {
-  id           String   @id @default(cuid())
+  id           String   @id @default(uuid())
   date         DateTime @unique
   pageViews    Int      @default(0)
   uniqueVisits Int      @default(0)

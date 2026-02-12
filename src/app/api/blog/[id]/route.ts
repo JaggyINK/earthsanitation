@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { getPostById, getPostBySlug, updatePost, deletePost } from '@/lib/blog-store'
+import { prisma } from '@/lib/prisma'
+
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
 
 // GET - Récupérer un article par ID ou slug
 export async function GET(
@@ -11,7 +20,11 @@ export async function GET(
   const { id } = await params
 
   // Chercher par ID ou par slug
-  const post = getPostById(id) || getPostBySlug(id)
+  const post = await prisma.blogPost.findFirst({
+    where: {
+      OR: [{ id }, { slug: id }],
+    },
+  })
 
   if (!post) {
     return NextResponse.json({ error: 'Article non trouvé' }, { status: 404 })
@@ -37,13 +50,46 @@ export async function PUT(
     const body = await request.json()
     const { title, content, excerpt, published } = body
 
-    const updatedPost = updatePost(id, { title, content, excerpt, published })
+    const existing = await prisma.blogPost.findUnique({ where: { id } })
+    if (!existing) {
+      return NextResponse.json({ error: 'Article non trouvé' }, { status: 404 })
+    }
+
+    const data: Record<string, unknown> = {}
+    if (content !== undefined) data.content = content
+    if (excerpt !== undefined) data.excerpt = excerpt
+
+    if (title !== undefined && title !== existing.title) {
+      const newSlug = generateSlug(title)
+      const slugConflict = await prisma.blogPost.findFirst({
+        where: { slug: newSlug, NOT: { id } },
+      })
+      if (slugConflict) {
+        return NextResponse.json(
+          { error: 'Un article avec ce titre existe déjà' },
+          { status: 400 }
+        )
+      }
+      data.title = title
+      data.slug = newSlug
+    }
+
+    if (published !== undefined) {
+      data.published = published
+      if (published && !existing.published) {
+        data.publishedAt = new Date()
+      }
+    }
+
+    const updatedPost = await prisma.blogPost.update({
+      where: { id },
+      data,
+    })
 
     return NextResponse.json(updatedPost)
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Erreur lors de la mise à jour'
-    const status = message === 'Article non trouvé' ? 404 : 400
-    return NextResponse.json({ error: message }, { status })
+    return NextResponse.json({ error: message }, { status: 400 })
   }
 }
 
@@ -60,11 +106,10 @@ export async function DELETE(
 
   const { id } = await params
 
-  const deleted = deletePost(id)
-
-  if (!deleted) {
+  try {
+    await prisma.blogPost.delete({ where: { id } })
+    return NextResponse.json({ success: true })
+  } catch {
     return NextResponse.json({ error: 'Article non trouvé' }, { status: 404 })
   }
-
-  return NextResponse.json({ success: true })
 }

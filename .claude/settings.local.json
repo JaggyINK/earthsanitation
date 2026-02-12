@@ -15,7 +15,22 @@
       "WebFetch(domain:www.google.com)",
       "WebFetch(domain:share.google)",
       "Bash(npm run build:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(ls:*)",
+      "Bash(npx tsc:*)",
+      "Bash(pg_isready:*)",
+      "Bash(service postgresql:*)",
+      "Bash(dpkg -l:*)",
+      "Bash(brew list:*)",
+      "Bash(sudo -u postgres psql:*)",
+      "Bash(PGPASSWORD=sanitation psql:*)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(npm ls:*)",
+      "Bash(npx prisma db seed:*)",
+      "Bash(pkill:*)",
+      "Bash(npx tsx:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)"
     ]
   }
 }
