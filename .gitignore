@@ -6,6 +6,9 @@ node_modules/
 *.log
 tsconfig.tsbuildinfo
 
+# Fichier connexions prod (confidentiel)
+CONNEXIONS-PROD.md
+
 # Uploads (photos leads)
 public/uploads/
 !public/uploads/.gitkeep

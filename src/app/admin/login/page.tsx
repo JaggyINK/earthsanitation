@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input label="Email" name="email" type="email" required placeholder="admin@earthsanitation.fr" />
+          <Input label="Email" name="email" type="email" required placeholder="" />
           <Input label="Mot de passe" name="password" type="password" required placeholder="••••••••" />
           {error && <p className="text-red-600 text-sm">{error}</p>}
           <Button type="submit" size="lg" className="w-full" disabled={loading}>
