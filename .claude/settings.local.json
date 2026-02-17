@@ -30,7 +30,27 @@
       "Bash(pkill:*)",
       "Bash(npx tsx:*)",
       "Bash(find:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"echo ''Connected!'' && uname -a && free -h && df -h /\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"echo ''Connected!'' && uname -a && free -h\")",
+      "Bash(sudo apt-get:*)",
+      "Bash(apt-get install:*)",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"echo ''Connected!'' && uname -a && free -h && df -h /\")",
+      "Bash(openssl rand:*)",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker builder prune -af && docker system prune -af && echo ''Cleaned!''\")",
+      "Bash(dig:*)",
+      "Bash(nslookup:*)",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker restart coolify-proxy && echo ''Proxy restarted'' && sleep 10 && docker logs coolify-proxy --tail 5 2>&1 | grep -i ''earth\\\\|cert\\\\|tls\\\\|error\\\\|acme''\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker exec coolify-proxy sh -c ''ls /etc/traefik/ 2>/dev/null; ls /data/ 2>/dev/null; ls /acme* 2>/dev/null; find / -name \"\"acme*\"\" -maxdepth 3 2>/dev/null''\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker logs coolify-proxy --since 2m 2>&1 | head -30\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker logs coolify-proxy --since 5m 2>&1\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"curl -sk https://earth-sanitation.fr -o /dev/null -w ''%{http_code}'' 2>/dev/null; echo; curl -s http://earth-sanitation.fr -o /dev/null -w ''%{http_code}'' 2>/dev/null\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker ps --format ''{{.Names}}'' | grep -v coolify\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker exec ecccgswk0k0gsoc4084gkc8s-170847468402 npx prisma migrate deploy 2>&1\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker exec ecccgswk0k0gsoc4084gkc8s-170847468402 printenv DATABASE_URL\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker exec ecccgswk0k0gsoc4084gkc8s-170847468402 printenv DATABASE_URL 2>/dev/null | tr -d '' \\\\n'' | head -c 200\")",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

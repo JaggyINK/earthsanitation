@@ -1,0 +1,71 @@
+Deployment is
+Finished
+Find in logs
+
+
+
+
+
+
+2026-Feb-17 17:08:48.993403
+Starting deployment of JaggyINK/earthsanitation:main to localhost.
+2026-Feb-17 17:08:49.205539
+Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2026-Feb-17 17:08:49.338750
+[CMD]: docker stop -t 30 g04o00owo08og4wo04k0wowo
+2026-Feb-17 17:08:49.338750
+Error response from daemon: No such container: g04o00owo08og4wo04k0wowo
+2026-Feb-17 17:08:49.518045
+[CMD]: docker run -d --network coolify --name g04o00owo08og4wo04k0wowo  --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.12
+2026-Feb-17 17:08:49.518045
+da0471b0732a3aa1d507868417a2d47af89521f5b8e7b7c9402355f8aa4c7331
+2026-Feb-17 17:08:51.761961
+[CMD]: docker exec g04o00owo08og4wo04k0wowo bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote https://x-access-token:<REDACTED>@github.com/JaggyINK/earthsanitation.git refs/heads/main'
+2026-Feb-17 17:08:51.761961
+23fdb85fb4ec78c382576a1bfde291ee28fcd49e	refs/heads/main
+2026-Feb-17 17:08:51.949916
+[CMD]: docker images -q ecccgswk0k0gsoc4084gkc8s:23fdb85fb4ec78c382576a1bfde291ee28fcd49e 2>/dev/null
+2026-Feb-17 17:08:51.949916
+6690bb36d68d
+2026-Feb-17 17:08:51.961928
+No configuration changed & image found (ecccgswk0k0gsoc4084gkc8s:23fdb85fb4ec78c382576a1bfde291ee28fcd49e) with the same Git Commit SHA. Build step skipped.
+2026-Feb-17 17:08:52.594122
+Creating .env file with runtime variables for container.
+2026-Feb-17 17:08:52.942825
+----------------------------------------
+2026-Feb-17 17:08:52.952838
+Rolling update started.
+2026-Feb-17 17:08:53.539409
+[CMD]: docker exec g04o00owo08og4wo04k0wowo bash -c 'COOLIFY_URL=https://earth-sanitation.fr COOLIFY_FQDN=earth-sanitation.fr COOLIFY_BRANCH=main COOLIFY_RESOURCE_UUID=ecccgswk0k0gsoc4084gkc8s  docker compose --project-name ecccgswk0k0gsoc4084gkc8s --project-directory /artifacts/g04o00owo08og4wo04k0wowo -f /artifacts/g04o00owo08og4wo04k0wowo/docker-compose.yaml up --build -d'
+2026-Feb-17 17:08:53.539409
+time="2026-02-17T17:08:53Z" level=warning msg="Found orphan containers ([ecccgswk0k0gsoc4084gkc8s-165424154971]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+2026-Feb-17 17:08:53.539409
+Container ecccgswk0k0gsoc4084gkc8s-170847468402  Creating
+2026-Feb-17 17:08:53.619234
+ecccgswk0k0gsoc4084gkc8s-170847468402 Your kernel does not support memory swappiness capabilities or the cgroup is not mounted. Memory swappiness discarded.
+2026-Feb-17 17:08:53.626206
+Container ecccgswk0k0gsoc4084gkc8s-170847468402  Created
+2026-Feb-17 17:08:53.655297
+Container ecccgswk0k0gsoc4084gkc8s-170847468402  Starting
+2026-Feb-17 17:08:53.879914
+Container ecccgswk0k0gsoc4084gkc8s-170847468402  Started
+2026-Feb-17 17:08:53.921095
+New container started.
+2026-Feb-17 17:08:53.948937
+Removing old containers.
+2026-Feb-17 17:08:55.332508
+[CMD]: docker stop -t 30 ecccgswk0k0gsoc4084gkc8s-165424154971
+2026-Feb-17 17:08:55.332508
+ecccgswk0k0gsoc4084gkc8s-165424154971
+2026-Feb-17 17:08:55.687132
+[CMD]: docker rm -f ecccgswk0k0gsoc4084gkc8s-165424154971
+2026-Feb-17 17:08:55.687132
+ecccgswk0k0gsoc4084gkc8s-165424154971
+2026-Feb-17 17:08:55.705544
+Rolling update completed.
+2026-Feb-17 17:08:56.508538
+Gracefully shutting down build container: g04o00owo08og4wo04k0wowo
+2026-Feb-17 17:08:56.957033
+[CMD]: docker stop -t 30 g04o00owo08og4wo04k0wowo
+2026-Feb-17 17:08:56.957033
+g04o00owo08og4wo04k0wowo
