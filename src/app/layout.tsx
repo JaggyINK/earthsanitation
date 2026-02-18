@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: 'Earth Sanitation',
     title: 'Earth Sanitation — Débouchage & Assainissement 24h/24',
     description: 'Débouchage, assainissement et travaux de canalisations en urgence 24h/24, 7j/7. Intervention rapide Montpellier, Nîmes et 100km autour.',
-    images: [{ url: '/images/logo.svg', width: 575, height: 620, alt: 'Earth Sanitation Logo' }],
+    images: [{ url: '/images/logo-og.png', width: 600, height: 647, alt: 'Earth Sanitation Logo' }],
   },
   robots: {
     index: true,

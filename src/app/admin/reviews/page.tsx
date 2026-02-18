@@ -9,7 +9,7 @@ interface Review {
   authorPhoto: string | null
   rating: number
   text: string
-  date: string
+  time: string
   source: string
   sourceUrl: string | null
   photos: string[]
@@ -115,7 +115,7 @@ export default function AdminReviewsPage() {
     setAuthorPhoto(review.authorPhoto || '')
     setRating(review.rating)
     setText(review.text)
-    setDate(review.date)
+    setDate(review.time ? new Date(review.time).toISOString().split('T')[0] : '')
     setSource(review.source)
     setSourceUrl(review.sourceUrl || '')
     setPhotos(review.photos || [])
@@ -719,7 +719,7 @@ export default function AdminReviewsPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
                       {renderStars(review.rating)}
-                      <span className="text-gray-400 text-sm">{new Date(review.date).toLocaleDateString('fr-FR')}</span>
+                      <span className="text-gray-400 text-sm">{new Date(review.time).toLocaleDateString('fr-FR')}</span>
                       {!review.visible && <Badge variant="warning">Masqué</Badge>}
                     </div>
                     <p className="text-gray-700 text-sm line-clamp-2">{review.text}</p>

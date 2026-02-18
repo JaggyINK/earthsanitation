@@ -13,7 +13,7 @@ export default function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <div className="relative w-10 h-10">
                 <Image
-                  src="/images/logo.svg"
+                  src="/images/logo.png"
                   alt={`${COMPANY_NAME} logo`}
                   fill
                   className="object-contain"

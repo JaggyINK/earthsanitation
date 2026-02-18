@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <div className="relative w-16 h-16 mx-auto mb-4">
-            <Image src="/images/logo.svg" alt="Earth Sanitation" fill className="object-contain" />
+            <Image src="/images/logo.png" alt="Earth Sanitation" fill className="object-contain" />
           </div>
           <h1 className="text-2xl font-heading font-bold text-forest">Administration</h1>
           <p className="text-sage text-sm mt-1">Connectez-vous à votre espace admin</p>

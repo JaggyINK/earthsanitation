@@ -29,9 +29,13 @@ export function getWhatsAppUrl(context?: { service?: string; ville?: string; typ
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }
 export const COMPANY_NAME = 'Earth Sanitation'
-export const COMPANY_FULL_NAME = 'EURL A.BTP EARTH SANITATION'
-export const COMPANY_EMAIL = 'contact@earthsanitation.fr'
-export const COMPANY_ADDRESS = '148 rue Marius Carrieu, 34080 Montpellier'
+export const COMPANY_FULL_NAME = 'Earth Sanitation — SASU'
+export const COMPANY_EMAIL = 'earthsanitationbtp@gmail.com'
+export const COMPANY_ADDRESS = '148 Rue Marius Carrieu, 34080 Montpellier'
 export const COMPANY_SIRET = '93919179700017'
 export const COMPANY_SIREN = '939191797'
+export const COMPANY_RCS = '939 191 797 R.C.S. Montpellier'
+export const COMPANY_TVA = 'FR10939191797'
+export const COMPANY_CAPITAL = '1 000,00 €'
+export const COMPANY_DIRECTOR = 'Azzat Jamal'
 export const COMPANY_NAF = '3700Z'

@@ -30,7 +30,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2">
             <div className="relative w-12 h-12">
               <Image
-              src="/images/logo.svg"
+              src="/images/logo.png"
               alt={`${COMPANY_NAME} logo`}
               fill
               className="object-contain"

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
@@ -53,8 +54,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="w-64 bg-forest text-cream shrink-0 hidden lg:flex flex-col">
         <div className="p-6 border-b border-cream/10">
           <Link href="/admin/dashboard" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-cream rounded-full flex items-center justify-center">
-              <span className="text-forest font-bold text-lg">ES</span>
+            <div className="w-10 h-10 relative shrink-0">
+              <Image src="/images/logo.png" alt="Earth Sanitation" fill className="object-contain" />
             </div>
             <div>
               <p className="font-heading font-bold text-sm">Earth Sanitation</p>
