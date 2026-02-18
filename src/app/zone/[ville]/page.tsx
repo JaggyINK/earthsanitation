@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button'
 import { getWhatsAppUrl } from '@/lib/utils'
 import ReviewsSection from '@/components/shared/ReviewsSection'
 import Image from 'next/image'
+import { BreadcrumbSchema } from '@/components/seo/StructuredData'
 
 interface Props {
   params: { ville: string }
@@ -21,9 +22,19 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const city = cities.find(c => c.slug === params.ville)
   if (!city) return {}
+  const siteUrl = 'https://earth-sanitation.fr'
   return {
     title: `Débouchage & Assainissement ${city.name}`,
-    description: `Intervention urgente débouchage et assainissement à ${city.name} (${city.department}). Disponible 24h/24, 7j/7.`,
+    description: `Intervention urgente débouchage et assainissement à ${city.name} (${city.department}). Disponible 24h/24, 7j/7. Devis gratuit.`,
+    alternates: {
+      canonical: `${siteUrl}/zone/${city.slug}`,
+    },
+    openGraph: {
+      title: `Débouchage & Assainissement ${city.name} — Earth Sanitation`,
+      description: `Intervention urgente débouchage et assainissement à ${city.name} (${city.department}). Disponible 24h/24, 7j/7.`,
+      url: `${siteUrl}/zone/${city.slug}`,
+      type: 'website',
+    },
   }
 }
 
@@ -33,6 +44,12 @@ export default function VillePage({ params }: Props) {
 
   return (
     <>
+      <BreadcrumbSchema items={[
+        { name: 'Accueil', href: '/' },
+        { name: 'Zones', href: '/#zones' },
+        { name: city.name, href: `/zone/${city.slug}` },
+      ]} />
+
       <section className="bg-forest text-cream py-14 lg:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ name: city.name, href: `/zone/${city.slug}` }]} />

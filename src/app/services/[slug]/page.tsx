@@ -8,6 +8,7 @@ import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import ReviewsSection from '@/components/shared/ReviewsSection'
 import { FadeIn, FadeInUp, StaggerContainer, StaggerItem, ScaleIn } from '@/components/shared/AnimatedSection'
 import { getWhatsAppUrl } from '@/lib/utils'
+import { ServiceSchema, BreadcrumbSchema, FAQSchema } from '@/components/seo/StructuredData'
 
 interface Props {
   params: { slug: string }
@@ -20,9 +21,25 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const service = services.find(s => s.slug === params.slug)
   if (!service) return {}
+  const siteUrl = 'https://earth-sanitation.fr'
   return {
     title: `${service.title} — Montpellier, Nîmes`,
     description: service.description,
+    alternates: {
+      canonical: `${siteUrl}/services/${service.slug}`,
+    },
+    openGraph: {
+      title: `${service.title} — Earth Sanitation`,
+      description: service.description,
+      url: `${siteUrl}/services/${service.slug}`,
+      type: 'website',
+      images: [{ url: '/images/logo-og.png', width: 600, height: 647, alt: service.title }],
+    },
+    twitter: {
+      card: 'summary',
+      title: `${service.title} — Earth Sanitation`,
+      description: service.description,
+    },
   }
 }
 
@@ -34,6 +51,16 @@ export default function ServicePage({ params }: Props) {
 
   return (
     <>
+      <ServiceSchema service={service} />
+      <BreadcrumbSchema items={[
+        { name: 'Accueil', href: '/' },
+        { name: 'Services', href: '/#services' },
+        { name: service.shortTitle, href: `/services/${service.slug}` },
+      ]} />
+      {service.faq && service.faq.length > 0 && (
+        <FAQSchema faqs={service.faq} />
+      )}
+
       {/* Hero */}
       <section className="relative h-105 sm:h-120">
         <Image

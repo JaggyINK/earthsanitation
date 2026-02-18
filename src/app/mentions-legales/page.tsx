@@ -13,7 +13,11 @@ import {
   PHONE_NUMBER,
 } from '@/lib/utils'
 
-export const metadata: Metadata = { title: 'Mentions légales' }
+export const metadata: Metadata = {
+  title: 'Mentions légales',
+  description: 'Mentions légales du site Earth Sanitation. Informations sur l\'éditeur, l\'hébergement et les conditions d\'utilisation.',
+  robots: { index: true, follow: true },
+}
 
 export default function MentionsLegalesPage() {
   return (

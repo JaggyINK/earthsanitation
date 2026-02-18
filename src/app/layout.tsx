@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { LocalBusinessSchema } from '@/components/seo/StructuredData'
+import { LocalBusinessSchema, WebSiteSchema } from '@/components/seo/StructuredData'
 import TrackingProvider from '@/components/shared/TrackingProvider'
 import AuthProvider from '@/components/shared/AuthProvider'
 import ConditionalLayout from '@/components/layout/ConditionalLayout'
@@ -38,6 +38,12 @@ export const metadata: Metadata = {
     description: 'Débouchage, assainissement et travaux de canalisations en urgence 24h/24, 7j/7. Intervention rapide Montpellier, Nîmes et 100km autour.',
     images: [{ url: '/images/logo-og.png', width: 600, height: 647, alt: 'Earth Sanitation Logo' }],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Earth Sanitation — Débouchage & Assainissement 24h/24',
+    description: 'Débouchage, assainissement et travaux de canalisations en urgence 24h/24, 7j/7. Intervention rapide Montpellier, Nîmes et 100km autour.',
+    images: ['/images/logo-og.png'],
+  },
   robots: {
     index: true,
     follow: true,
@@ -68,6 +74,7 @@ export default function RootLayout({
         <AuthProvider>
           <TrackingProvider>
             <LocalBusinessSchema />
+            <WebSiteSchema />
             <ConditionalLayout>{children}</ConditionalLayout>
           </TrackingProvider>
         </AuthProvider>

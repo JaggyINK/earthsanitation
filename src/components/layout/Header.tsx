@@ -113,7 +113,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-sand/30">
+        <div className="lg:hidden bg-white border-t border-sand/30 max-h-[calc(100vh-4rem)] overflow-y-auto">
           <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-2">
             {navLinks.map(link => (
               <div key={link.href}>

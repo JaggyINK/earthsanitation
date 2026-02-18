@@ -2,7 +2,11 @@ import type { Metadata } from 'next'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import { COMPANY_NAME, COMPANY_EMAIL, COMPANY_ADDRESS } from '@/lib/utils'
 
-export const metadata: Metadata = { title: 'Politique de confidentialit\u00e9' }
+export const metadata: Metadata = {
+  title: 'Politique de confidentialité',
+  description: 'Politique de confidentialité d\'Earth Sanitation. Protection de vos données personnelles, cookies et droits RGPD.',
+  robots: { index: true, follow: true },
+}
 
 export default function PolitiqueConfidentialitePage() {
   return (

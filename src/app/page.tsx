@@ -71,17 +71,21 @@ export default function Home() {
       <section className="relative -mt-8 z-10 pb-8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScaleIn>
-            <div className="bg-white rounded-2xl shadow-xl border border-sand/20 p-6 sm:p-8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
+            <div className="bg-white rounded-2xl shadow-xl border border-sand/30 p-6 sm:p-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center">
                 {[
-                  { value: '24/7', label: 'Disponibilité', sub: 'Jours fériés inclus' },
-                  { value: '< 1h', label: 'Intervention', sub: 'Sur Montpellier & Nîmes' },
-                  { value: '100 km', label: "Zone d'action", sub: 'Hérault, Gard, Aude' },
-                  { value: '100%', label: 'Satisfaction', sub: 'Devis gratuit garanti' },
+                  { value: '24/7', label: 'Disponibilité', sub: 'Jours fériés inclus', icon: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z' },
+                  { value: '< 1h', label: 'Intervention', sub: 'Sur Montpellier & Nîmes', icon: 'M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z' },
+                  { value: '100 km', label: "Zone d'action", sub: 'Hérault, Gard, Aude', icon: 'M15 10.5a3 3 0 11-6 0 3 3 0 016 0z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z' },
+                  { value: '100%', label: 'Satisfaction', sub: 'Devis gratuit garanti', icon: 'M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3.75a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 5.25c0 .372-.052.738-.153 1.09a5.25 5.25 0 00-.421 2.036v.042a.75.75 0 01-.75.75H9.375a3.375 3.375 0 00-3.375 3.375v.158c0 .456.07.898.2 1.312l.106.32a3.375 3.375 0 003.197 2.28h1.122a.75.75 0 01.528.218l.003.003A3.375 3.375 0 0014.534 18h1.591a.75.75 0 01.53.22l.294.293A2.625 2.625 0 0118.81 21H4.5a.75.75 0 01-.75-.75v-6a3.375 3.375 0 013.375-3.375h-.492z' },
                 ].map(item => (
-                  <div key={item.label} className="group">
-                    <p className="text-3xl lg:text-4xl font-heading font-extrabold text-forest group-hover:text-gold transition-colors duration-300">{item.value}</p>
-                    <p className="text-sm font-semibold text-sage mt-1">{item.label}</p>
+                  <div key={item.label} className="group relative">
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-gold rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <svg className="w-6 h-6 mx-auto mb-2 text-gold hidden sm:block" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                    </svg>
+                    <p className="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold text-forest group-hover:text-gold transition-colors duration-300">{item.value}</p>
+                    <p className="text-xs sm:text-sm font-semibold text-sage mt-1">{item.label}</p>
                     <p className="text-xs text-sage/60 mt-0.5 hidden sm:block">{item.sub}</p>
                   </div>
                 ))}
@@ -92,16 +96,17 @@ export default function Home() {
       </section>
 
       {/* Services */}
-      <section id="services" className="py-20 lg:py-28">
+      <section id="services" className="py-16 lg:py-28 bg-cream/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
-            <div className="text-center mb-16">
-              <span className="inline-block bg-forest/10 text-forest text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
+            <div className="text-center mb-14">
+              <span className="inline-block bg-forest/10 text-forest text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-forest/20">
                 Nos expertises
               </span>
               <h2 className="text-3xl lg:text-4xl font-heading font-bold text-forest mb-4">
                 Nos services
               </h2>
+              <div className="w-16 h-1 bg-gold rounded-full mx-auto mb-4" />
               <p className="text-sage max-w-2xl mx-auto text-lg">
                 Des solutions professionnelles pour tous vos problèmes de canalisations et d&apos;assainissement.
               </p>
@@ -112,7 +117,7 @@ export default function Home() {
             {services.map(service => (
               <StaggerItem key={service.slug}>
                 <Link href={`/services/${service.slug}`} className="block h-full">
-                  <Card hover className="h-full p-0 overflow-hidden group">
+                  <Card hover className="h-full p-0 overflow-hidden group border border-sand/30">
                     <div className="relative w-full h-52 overflow-hidden">
                       <Image
                         src={service.image}
@@ -121,6 +126,11 @@ export default function Home() {
                         className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute top-3 left-3">
+                        <span className="inline-block bg-forest/90 text-cream text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
+                          Professionnel
+                        </span>
+                      </div>
                     </div>
                     <div className="p-6">
                       <h3 className="font-heading font-bold text-lg text-forest mb-2 group-hover:text-sage transition-colors">
@@ -129,12 +139,14 @@ export default function Home() {
                       <p className="text-sage text-sm leading-relaxed line-clamp-3">
                         {service.description}
                       </p>
-                      <span className="inline-flex items-center gap-1 text-forest font-semibold text-sm mt-4 group-hover:text-gold transition-colors">
-                        En savoir plus
-                        <svg className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </span>
+                      <div className="mt-4 pt-3 border-t border-sand/30">
+                        <span className="inline-flex items-center gap-1 text-forest font-semibold text-sm group-hover:text-gold transition-colors">
+                          En savoir plus
+                          <svg className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </span>
+                      </div>
                     </div>
                   </Card>
                 </Link>
@@ -145,43 +157,49 @@ export default function Home() {
       </section>
 
       {/* Comment ça marche */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 lg:py-28 bg-white relative overflow-hidden">
+        {/* Decorative background */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+        <div className="absolute -top-20 -left-20 w-60 h-60 bg-gold/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-forest/5 rounded-full blur-3xl" />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
-            <div className="text-center mb-16">
-              <span className="inline-block bg-gold/10 text-gold text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
+            <div className="text-center mb-14">
+              <span className="inline-block bg-gold/10 text-gold text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-gold/20">
                 Simple et rapide
               </span>
               <h2 className="text-3xl lg:text-4xl font-heading font-bold text-forest mb-4">
                 Comment ça marche ?
               </h2>
+              <div className="w-16 h-1 bg-gold rounded-full mx-auto mb-4" />
               <p className="text-sage max-w-xl mx-auto">
                 De votre appel à la résolution du problème, nous agissons vite et bien.
               </p>
             </div>
           </FadeIn>
 
-          <StaggerContainer staggerDelay={0.15} className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <StaggerContainer staggerDelay={0.15} className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-8">
             {[
-              { step: '01', title: 'Contactez-nous', desc: 'Par WhatsApp, téléphone ou formulaire. Décrivez votre problème, envoyez des photos.', icon: 'M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z' },
-              { step: '02', title: 'Diagnostic gratuit', desc: 'Nos experts analysent la situation et vous fournissent un devis transparent, sans engagement.', icon: 'M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z' },
-              { step: '03', title: 'Intervention', desc: 'Nos techniciens interviennent rapidement avec du matériel professionnel de pointe.', icon: 'M11.42 15.17l-5.648-3.014a.75.75 0 01-.362-1.003l2.25-5.25a.75.75 0 011.003-.362l5.648 3.014a.75.75 0 01.362 1.003l-2.25 5.25a.75.75 0 01-1.003.362z' },
-              { step: '04', title: 'Problème résolu', desc: 'Vérification du résultat, nettoyage du chantier et conseils de prévention.', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+              { step: '01', title: 'Contactez-nous', desc: 'Par WhatsApp, téléphone ou formulaire.', icon: 'M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z' },
+              { step: '02', title: 'Diagnostic gratuit', desc: 'Devis transparent, sans engagement.', icon: 'M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z' },
+              { step: '03', title: 'Intervention', desc: 'Techniciens qualifiés, matériel pro.', icon: 'M11.42 15.17l-5.648-3.014a.75.75 0 01-.362-1.003l2.25-5.25a.75.75 0 011.003-.362l5.648 3.014a.75.75 0 01.362 1.003l-2.25 5.25a.75.75 0 01-1.003.362z' },
+              { step: '04', title: 'Problème résolu', desc: 'Vérification et conseils prévention.', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
             ].map(item => (
               <StaggerItem key={item.step}>
                 <div className="text-center group">
-                  <div className="relative mx-auto mb-6">
-                    <div className="w-20 h-20 bg-cream rounded-2xl flex items-center justify-center mx-auto group-hover:bg-forest group-hover:shadow-lg group-hover:shadow-forest/20 transition-all duration-300">
-                      <svg className="w-9 h-9 text-forest group-hover:text-cream transition-colors duration-300" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                  <div className="relative mx-auto mb-4 lg:mb-6">
+                    <div className="w-16 h-16 lg:w-20 lg:h-20 bg-cream rounded-2xl border border-sand/40 flex items-center justify-center mx-auto group-hover:bg-forest group-hover:border-forest group-hover:shadow-lg group-hover:shadow-forest/20 transition-all duration-300">
+                      <svg className="w-7 h-7 lg:w-9 lg:h-9 text-forest group-hover:text-cream transition-colors duration-300" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                       </svg>
                     </div>
-                    <span className="absolute -top-2 -right-2 w-8 h-8 bg-gold text-white text-xs font-bold rounded-full flex items-center justify-center shadow-md">
+                    <span className="absolute -top-2 -right-2 w-7 h-7 lg:w-8 lg:h-8 bg-gold text-white text-xs font-bold rounded-full flex items-center justify-center shadow-md border-2 border-white">
                       {item.step}
                     </span>
                   </div>
-                  <h3 className="font-heading font-bold text-lg text-forest mb-2">{item.title}</h3>
-                  <p className="text-sage text-sm leading-relaxed">{item.desc}</p>
+                  <h3 className="font-heading font-bold text-sm lg:text-lg text-forest mb-1 lg:mb-2">{item.title}</h3>
+                  <p className="text-sage text-xs lg:text-sm leading-relaxed">{item.desc}</p>
                 </div>
               </StaggerItem>
             ))}
@@ -193,9 +211,12 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1)_0%,transparent_50%)]" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center text-white">
+        {/* Decorative border top */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-800 via-red-400 to-red-800" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16 text-center text-white">
           <FadeIn>
-            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-sm font-semibold px-4 py-2 rounded-full mb-6">
+            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-sm font-semibold px-4 py-2 rounded-full mb-6 border border-white/20">
               <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
               Disponible maintenant
             </div>
@@ -226,67 +247,93 @@ export default function Home() {
       </section>
 
       {/* Pourquoi nous choisir */}
-      <section className="py-20 lg:py-28 bg-cream/30">
+      <section className="py-16 lg:py-28 bg-cream/30 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-sand/50 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
-            <div className="text-center mb-16">
-              <span className="inline-block bg-forest/10 text-forest text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
+            <div className="text-center mb-14">
+              <span className="inline-block bg-forest/10 text-forest text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-forest/20">
                 Nos engagements
               </span>
               <h2 className="text-3xl lg:text-4xl font-heading font-bold text-forest mb-4">
                 Pourquoi nous choisir ?
               </h2>
+              <div className="w-16 h-1 bg-gold rounded-full mx-auto" />
             </div>
           </FadeIn>
 
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {[
               {
                 title: 'Intervention rapide',
                 desc: "Nous intervenons en moins d'une heure sur Montpellier et Nîmes. Disponibles 24h/24, 7j/7, week-ends et jours fériés inclus.",
                 icon: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z',
-                color: 'bg-red-50 text-red-600',
+                color: 'bg-red-50 text-red-600 border-red-100',
+                accent: 'border-l-red-500',
               },
               {
                 title: 'Expertise certifiée',
                 desc: "Nos techniciens sont formés aux dernières techniques de débouchage et d'assainissement. Matériel professionnel de pointe.",
                 icon: 'M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.746 3.746 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z',
-                color: 'bg-emerald-50 text-emerald-600',
+                color: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+                accent: 'border-l-emerald-500',
               },
               {
                 title: 'Devis transparent',
                 desc: "Pas de mauvaise surprise. Nous vous communiquons un devis clair et détaillé avant chaque intervention. Sans engagement.",
                 icon: 'M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z',
-                color: 'bg-blue-50 text-blue-600',
+                color: 'bg-blue-50 text-blue-600 border-blue-100',
+                accent: 'border-l-blue-500',
               },
             ].map(item => (
               <StaggerItem key={item.title}>
-                <div className="bg-white rounded-2xl p-8 h-full border border-sand/20 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                  <div className={`w-14 h-14 ${item.color} rounded-xl flex items-center justify-center mb-6`}>
-                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <div className={`bg-white rounded-2xl p-6 lg:p-8 h-full border border-sand/30 border-l-4 ${item.accent} hover:shadow-xl hover:-translate-y-1 transition-all duration-300`}>
+                  <div className={`w-12 h-12 lg:w-14 lg:h-14 ${item.color} border rounded-xl flex items-center justify-center mb-5`}>
+                    <svg className="w-6 h-6 lg:w-7 lg:h-7" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                     </svg>
                   </div>
-                  <h3 className="font-heading font-bold text-xl text-forest mb-3">{item.title}</h3>
-                  <p className="text-sage leading-relaxed">{item.desc}</p>
+                  <h3 className="font-heading font-bold text-lg lg:text-xl text-forest mb-3">{item.title}</h3>
+                  <p className="text-sage leading-relaxed text-sm lg:text-base">{item.desc}</p>
                 </div>
               </StaggerItem>
             ))}
           </StaggerContainer>
+
+          {/* Trust micro-badges */}
+          <FadeIn>
+            <div className="mt-12 flex flex-wrap justify-center gap-3 sm:gap-4">
+              {[
+                { label: 'Devis gratuit', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                { label: 'Sans engagement', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                { label: 'Paiement sécurisé', icon: 'M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z' },
+                { label: 'Résultat garanti', icon: 'M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z' },
+              ].map(badge => (
+                <span key={badge.label} className="inline-flex items-center gap-1.5 bg-white border border-sand/40 text-forest text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full shadow-sm">
+                  <svg className="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d={badge.icon} />
+                  </svg>
+                  {badge.label}
+                </span>
+              ))}
+            </div>
+          </FadeIn>
         </div>
       </section>
 
       {/* Zones d'intervention */}
-      <section className="py-20 lg:py-28 bg-white">
+      <section className="py-16 lg:py-28 bg-white relative">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-forest/10 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
             <div className="text-center mb-12">
-              <span className="inline-block bg-forest/10 text-forest text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
+              <span className="inline-block bg-forest/10 text-forest text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-forest/20">
                 Rayon de 100 km
               </span>
               <h2 className="text-3xl lg:text-4xl font-heading font-bold text-forest mb-4">
                 Quelques villes où nous intervenons
               </h2>
+              <div className="w-16 h-1 bg-gold rounded-full mx-auto mb-4" />
               <p className="text-sage max-w-2xl mx-auto">
                 Nous couvrons l&apos;Hérault, le Gard et les départements limitrophes autour de Montpellier et Nîmes.
               </p>
@@ -373,17 +420,26 @@ export default function Home() {
       {/* Reviews */}
       <ReviewsSection />
 
-      {/* CTA Final */}
-      <section className="relative py-20 lg:py-28 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-forest via-forest to-sage/80" />
+      {/* CTA Final - flows directly into footer */}
+      <section className="relative py-16 lg:py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-forest" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,var(--color-gold)_0%,transparent_50%)] opacity-10" />
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gold/5 rounded-full blur-3xl" />
+        {/* Top decorative border */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-forest via-gold/40 to-forest" />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-cream">
           <FadeIn>
-            <h2 className="text-3xl lg:text-5xl font-heading font-bold mb-6">
+            <span className="inline-flex items-center gap-2 bg-cream/10 backdrop-blur-sm text-cream text-sm font-semibold px-4 py-1.5 rounded-full mb-6 border border-cream/20">
+              <svg className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                <path fillRule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625z" clipRule="evenodd" />
+              </svg>
+              Estimation gratuite
+            </span>
+            <h2 className="text-3xl lg:text-5xl font-heading font-bold mb-4">
               Besoin d&apos;un devis ?
             </h2>
+            <div className="w-16 h-1 bg-gold rounded-full mx-auto mb-6" />
             <p className="text-cream/70 mb-10 max-w-xl mx-auto text-lg leading-relaxed">
               Décrivez-nous votre problème et recevez un devis gratuit sous 24h. Sans engagement.
             </p>
