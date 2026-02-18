@@ -8,6 +8,27 @@ import { cities } from '@/data/cities'
 import { getWhatsAppUrl } from '@/lib/utils'
 import Image from 'next/image'
 import { FadeIn, FadeInUp, StaggerContainer, StaggerItem, ScaleIn } from '@/components/shared/AnimatedSection'
+import AnimatedCounter from '@/components/shared/AnimatedCounter'
+
+/* Inline SVG icons used as subtle background decorations */
+const WaterDrop = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 0C12 0 0 14.4 0 22c0 6.627 5.373 10 12 10s12-3.373 12-10C24 14.4 12 0 12 0z" />
+  </svg>
+)
+
+const PipeCorner = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth="3" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 0v50a20 20 0 0020 20h50" />
+    <path d="M0 0v50a30 30 0 0030 30h50" />
+  </svg>
+)
+
+const WaveLine = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 400 40" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 20 Q50 0 100 20 Q150 40 200 20 Q250 0 300 20 Q350 40 400 20" strokeWidth="2" />
+  </svg>
+)
 
 export default function Home() {
   return (
@@ -74,17 +95,19 @@ export default function Home() {
             <div className="bg-white rounded-2xl shadow-xl border border-sand/30 p-6 sm:p-8">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center">
                 {[
-                  { value: '24/7', label: 'Disponibilité', sub: 'Jours fériés inclus', icon: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z' },
-                  { value: '< 1h', label: 'Intervention', sub: 'Sur Montpellier & Nîmes', icon: 'M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z' },
-                  { value: '100 km', label: "Zone d'action", sub: 'Hérault, Gard, Aude', icon: 'M15 10.5a3 3 0 11-6 0 3 3 0 016 0z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z' },
-                  { value: '100%', label: 'Satisfaction', sub: 'Devis gratuit garanti', icon: 'M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3.75a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 5.25c0 .372-.052.738-.153 1.09a5.25 5.25 0 00-.421 2.036v.042a.75.75 0 01-.75.75H9.375a3.375 3.375 0 00-3.375 3.375v.158c0 .456.07.898.2 1.312l.106.32a3.375 3.375 0 003.197 2.28h1.122a.75.75 0 01.528.218l.003.003A3.375 3.375 0 0014.534 18h1.591a.75.75 0 01.53.22l.294.293A2.625 2.625 0 0118.81 21H4.5a.75.75 0 01-.75-.75v-6a3.375 3.375 0 013.375-3.375h-.492z' },
+                  { end: 24, separator: '/', end2: 7, label: 'Disponibilité', sub: 'Jours fériés inclus', icon: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z' },
+                  { end: 1, prefix: '< ', suffix: 'h', label: 'Intervention', sub: 'Sur Montpellier & Nîmes', icon: 'M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z' },
+                  { end: 100, suffix: ' km', label: "Zone d'action", sub: 'Hérault, Gard, Aude', icon: 'M15 10.5a3 3 0 11-6 0 3 3 0 016 0z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z' },
+                  { end: 100, suffix: '%', label: 'Satisfaction', sub: 'Devis gratuit garanti', icon: 'M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3.75a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 5.25c0 .372-.052.738-.153 1.09a5.25 5.25 0 00-.421 2.036v.042a.75.75 0 01-.75.75H9.375a3.375 3.375 0 00-3.375 3.375v.158c0 .456.07.898.2 1.312l.106.32a3.375 3.375 0 003.197 2.28h1.122a.75.75 0 01.528.218l.003.003A3.375 3.375 0 0014.534 18h1.591a.75.75 0 01.53.22l.294.293A2.625 2.625 0 0118.81 21H4.5a.75.75 0 01-.75-.75v-6a3.375 3.375 0 013.375-3.375h-.492z' },
                 ].map(item => (
                   <div key={item.label} className="group relative">
                     <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-gold rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <svg className="w-6 h-6 mx-auto mb-2 text-gold hidden sm:block" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                     </svg>
-                    <p className="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold text-forest group-hover:text-gold transition-colors duration-300">{item.value}</p>
+                    <p className="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold text-forest group-hover:text-gold transition-colors duration-300">
+                      <AnimatedCounter end={item.end} prefix={item.prefix} suffix={item.suffix} separator={item.separator} end2={item.end2} />
+                    </p>
                     <p className="text-xs sm:text-sm font-semibold text-sage mt-1">{item.label}</p>
                     <p className="text-xs text-sage/60 mt-0.5 hidden sm:block">{item.sub}</p>
                   </div>
@@ -96,8 +119,15 @@ export default function Home() {
       </section>
 
       {/* Services */}
-      <section id="services" className="py-16 lg:py-28 bg-cream/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="services" className="py-16 lg:py-28 bg-cream/20 relative overflow-hidden">
+        {/* BG decorations — pipes */}
+        <PipeCorner className="absolute top-8 left-4 w-24 h-24 text-forest/[0.04] rotate-0 hidden lg:block" />
+        <PipeCorner className="absolute bottom-8 right-4 w-32 h-32 text-forest/[0.04] rotate-180 hidden lg:block" />
+        <WaterDrop className="absolute top-20 right-16 w-5 h-7 text-sage/[0.07] hidden lg:block" />
+        <WaterDrop className="absolute top-32 right-24 w-3 h-4 text-sage/[0.05] hidden lg:block" />
+        <WaterDrop className="absolute bottom-40 left-20 w-4 h-6 text-sage/[0.06] hidden lg:block" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
             <div className="text-center mb-14">
               <span className="inline-block bg-forest/10 text-forest text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-forest/20">
@@ -127,8 +157,11 @@ export default function Home() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="absolute top-3 left-3">
-                        <span className="inline-block bg-forest/90 text-cream text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
-                          Professionnel
+                        <span className="inline-flex items-center gap-1 bg-white/90 text-forest text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm">
+                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
+                          </svg>
+                          Pro &amp; Particulier
                         </span>
                       </div>
                     </div>
@@ -158,8 +191,14 @@ export default function Home() {
 
       {/* Comment ça marche */}
       <section className="py-16 lg:py-28 bg-white relative overflow-hidden">
-        {/* Decorative background */}
+        {/* BG decorations — water flow */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+        <WaveLine className="absolute top-16 left-0 w-full text-sage/[0.06] hidden lg:block" />
+        <WaveLine className="absolute bottom-20 left-0 w-full text-forest/[0.04] hidden lg:block" />
+        <WaterDrop className="absolute top-28 left-12 w-4 h-6 text-sage/[0.06] hidden lg:block" />
+        <WaterDrop className="absolute top-40 left-20 w-3 h-4 text-sage/[0.04] hidden lg:block" />
+        <WaterDrop className="absolute bottom-32 right-16 w-5 h-7 text-forest/[0.05] hidden lg:block" />
+        <WaterDrop className="absolute bottom-44 right-10 w-3 h-4 text-forest/[0.03] hidden lg:block" />
         <div className="absolute -top-20 -left-20 w-60 h-60 bg-gold/5 rounded-full blur-3xl" />
         <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-forest/5 rounded-full blur-3xl" />
 
@@ -211,7 +250,6 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1)_0%,transparent_50%)]" />
-        {/* Decorative border top */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-800 via-red-400 to-red-800" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16 text-center text-white">
@@ -248,8 +286,16 @@ export default function Home() {
 
       {/* Pourquoi nous choisir */}
       <section className="py-16 lg:py-28 bg-cream/30 relative overflow-hidden">
+        {/* BG decorations — tools / trust */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-sand/50 to-transparent" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <PipeCorner className="absolute top-12 right-8 w-28 h-28 text-sage/[0.05] -rotate-90 hidden lg:block" />
+        <PipeCorner className="absolute bottom-12 left-8 w-20 h-20 text-forest/[0.04] rotate-90 hidden lg:block" />
+        <WaterDrop className="absolute top-24 left-16 w-4 h-6 text-gold/[0.08] hidden lg:block" />
+        <WaterDrop className="absolute bottom-32 right-20 w-5 h-7 text-gold/[0.06] hidden lg:block" />
+        <WaterDrop className="absolute bottom-44 right-28 w-3 h-4 text-gold/[0.04] hidden lg:block" />
+        <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-forest/[0.02] rounded-full blur-3xl" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
             <div className="text-center mb-14">
               <span className="inline-block bg-forest/10 text-forest text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-forest/20">
@@ -322,9 +368,21 @@ export default function Home() {
       </section>
 
       {/* Zones d'intervention */}
-      <section className="py-16 lg:py-28 bg-white relative">
+      <section className="py-16 lg:py-28 bg-white relative overflow-hidden">
+        {/* BG decorations — map pins */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-forest/10 to-transparent" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <svg className="absolute top-20 right-8 w-8 h-10 text-forest/[0.05] hidden lg:block" fill="currentColor" viewBox="0 0 24 24">
+          <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742z" clipRule="evenodd" />
+        </svg>
+        <svg className="absolute bottom-32 left-12 w-6 h-8 text-sage/[0.06] hidden lg:block" fill="currentColor" viewBox="0 0 24 24">
+          <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742z" clipRule="evenodd" />
+        </svg>
+        <svg className="absolute top-48 left-6 w-5 h-7 text-gold/[0.06] hidden lg:block" fill="currentColor" viewBox="0 0 24 24">
+          <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742z" clipRule="evenodd" />
+        </svg>
+        <WaveLine className="absolute bottom-10 left-0 w-full text-sand/[0.15] hidden lg:block" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
             <div className="text-center mb-12">
               <span className="inline-block bg-forest/10 text-forest text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-forest/20">
@@ -367,11 +425,7 @@ export default function Home() {
                     <h3 className="text-sm font-semibold text-sage uppercase tracking-wider mb-3 text-center">Hérault (34)</h3>
                     <div className="flex flex-wrap justify-center gap-1.5">
                       {cities.filter(c => c.priority === 'medium' && c.department === 'Hérault').map(city => (
-                        <Link
-                          key={city.slug}
-                          href={`/zone/${city.slug}`}
-                          className="inline-flex items-center gap-1 bg-white border border-sand/50 text-forest px-2.5 py-1 rounded-full text-xs hover:bg-cream hover:border-sage/30 transition-colors"
-                        >
+                        <Link key={city.slug} href={`/zone/${city.slug}`} className="inline-flex items-center gap-1 bg-white border border-sand/50 text-forest px-2.5 py-1 rounded-full text-xs hover:bg-cream hover:border-sage/30 transition-colors">
                           {city.name}
                         </Link>
                       ))}
@@ -381,11 +435,7 @@ export default function Home() {
                     <h3 className="text-sm font-semibold text-sage uppercase tracking-wider mb-3 text-center">Gard (30)</h3>
                     <div className="flex flex-wrap justify-center gap-1.5">
                       {cities.filter(c => c.priority === 'medium' && c.department === 'Gard').map(city => (
-                        <Link
-                          key={city.slug}
-                          href={`/zone/${city.slug}`}
-                          className="inline-flex items-center gap-1 bg-white border border-sand/50 text-forest px-2.5 py-1 rounded-full text-xs hover:bg-cream hover:border-sage/30 transition-colors"
-                        >
+                        <Link key={city.slug} href={`/zone/${city.slug}`} className="inline-flex items-center gap-1 bg-white border border-sand/50 text-forest px-2.5 py-1 rounded-full text-xs hover:bg-cream hover:border-sage/30 transition-colors">
                           {city.name}
                         </Link>
                       ))}
@@ -395,11 +445,7 @@ export default function Home() {
                     <h3 className="text-sm font-semibold text-sage uppercase tracking-wider mb-3 text-center">Aude (11)</h3>
                     <div className="flex flex-wrap justify-center gap-1.5">
                       {cities.filter(c => c.department === 'Aude').map(city => (
-                        <Link
-                          key={city.slug}
-                          href={`/zone/${city.slug}`}
-                          className="inline-flex items-center gap-1 bg-white border border-sand/50 text-forest px-2.5 py-1 rounded-full text-xs hover:bg-cream hover:border-sage/30 transition-colors"
-                        >
+                        <Link key={city.slug} href={`/zone/${city.slug}`} className="inline-flex items-center gap-1 bg-white border border-sand/50 text-forest px-2.5 py-1 rounded-full text-xs hover:bg-cream hover:border-sage/30 transition-colors">
                           {city.name}
                         </Link>
                       ))}
@@ -425,7 +471,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-forest" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,var(--color-gold)_0%,transparent_50%)] opacity-10" />
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gold/5 rounded-full blur-3xl" />
-        {/* Top decorative border */}
+        {/* BG decorations — water drops */}
+        <WaterDrop className="absolute top-16 left-12 w-4 h-6 text-cream/[0.04] hidden lg:block" />
+        <WaterDrop className="absolute top-28 left-20 w-3 h-4 text-cream/[0.03] hidden lg:block" />
+        <WaterDrop className="absolute bottom-20 right-16 w-5 h-7 text-cream/[0.04] hidden lg:block" />
+        <WaterDrop className="absolute bottom-32 right-24 w-3 h-4 text-cream/[0.03] hidden lg:block" />
+        <PipeCorner className="absolute bottom-0 right-0 w-24 h-24 text-cream/[0.04] rotate-180 hidden lg:block" />
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-forest via-gold/40 to-forest" />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-cream">

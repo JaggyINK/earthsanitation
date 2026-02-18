@@ -3,11 +3,15 @@
 import { getWhatsAppUrl } from '@/lib/utils'
 import Link from 'next/link'
 
-export default function StickyBottomBar() {
+interface Props {
+  hidden?: boolean
+}
+
+export default function StickyBottomBar({ hidden }: Props) {
   const whatsappUrl = getWhatsAppUrl({ type: 'urgence' })
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-sand/30 shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
+    <div className={`fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-sand/30 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] transition-transform duration-300 ${hidden ? 'translate-y-full' : 'translate-y-0'}`}>
       <div className="grid grid-cols-3 h-16">
         {/* WhatsApp */}
         <a

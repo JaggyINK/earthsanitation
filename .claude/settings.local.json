@@ -79,7 +79,9 @@
       "Bash(git status:*)",
       "Bash(node -e:*)",
       "mcp__chrome-devtools__emulate",
-      "mcp__chrome-devtools__list_pages"
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__list_console_messages",
+      "Bash(npx next build:*)"
     ]
   }
 }

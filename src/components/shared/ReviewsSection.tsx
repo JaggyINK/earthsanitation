@@ -8,7 +8,7 @@ interface Review {
   authorPhoto: string | null
   rating: number
   text: string
-  date: string
+  time: string
   source: string
   sourceUrl: string | null
   photos: string[]
@@ -104,13 +104,25 @@ export default function ReviewsSection() {
   if (reviews.length === 0) return null
 
   return (
-    <section className="py-16 lg:py-24 bg-cream">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 lg:py-24 bg-cream relative overflow-hidden">
+      {/* BG decorations — subtle trust elements */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-gold/20 to-transparent" />
+      <svg className="absolute top-16 right-10 w-5 h-7 text-gold/6 hidden lg:block" viewBox="0 0 24 32" fill="currentColor"><path d="M12 0C12 0 0 14.4 0 22c0 6.627 5.373 10 12 10s12-3.373 12-10C24 14.4 12 0 12 0z" /></svg>
+      <svg className="absolute top-28 right-18 w-3 h-4 text-gold/4 hidden lg:block" viewBox="0 0 24 32" fill="currentColor"><path d="M12 0C12 0 0 14.4 0 22c0 6.627 5.373 10 12 10s12-3.373 12-10C24 14.4 12 0 12 0z" /></svg>
+      <svg className="absolute bottom-24 left-12 w-4 h-6 text-sage/6 hidden lg:block" viewBox="0 0 24 32" fill="currentColor"><path d="M12 0C12 0 0 14.4 0 22c0 6.627 5.373 10 12 10s12-3.373 12-10C24 14.4 12 0 12 0z" /></svg>
+      <svg className="absolute bottom-36 left-20 w-3 h-4 text-sage/4 hidden lg:block" viewBox="0 0 24 32" fill="currentColor"><path d="M12 0C12 0 0 14.4 0 22c0 6.627 5.373 10 12 10s12-3.373 12-10C24 14.4 12 0 12 0z" /></svg>
+      {/* Star decorations */}
+      <svg className="absolute top-20 left-8 w-6 h-6 text-gold/[0.07] hidden lg:block" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+      <svg className="absolute bottom-16 right-14 w-5 h-5 text-gold/5 hidden lg:block" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+      <div className="absolute -top-20 left-1/4 w-60 h-60 bg-gold/03 rounded-full blur-3xl" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header avec stats */}
         <div className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold text-forest mb-4">
             Ils nous ont fait confiance
           </h2>
+          <div className="w-16 h-1 bg-gold rounded-full mx-auto mb-4" />
           {stats && stats.count > 0 && (
             <div className="flex items-center justify-center gap-3">
               <div className="flex items-center gap-1">
@@ -135,7 +147,7 @@ export default function ReviewsSection() {
               {/* Header avis */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-sage/20 flex items-center justify-center overflow-hidden flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-sage/20 flex items-center justify-center overflow-hidden shrink-0">
                     {review.authorPhoto ? (
                       <img
                         src={review.authorPhoto}
@@ -171,7 +183,7 @@ export default function ReviewsSection() {
               <div className="flex items-center gap-2 mb-3">
                 <Stars rating={review.rating} />
                 <span className="text-xs text-gray-400">
-                  {new Date(review.date).toLocaleDateString('fr-FR', {
+                  {new Date(review.time).toLocaleDateString('fr-FR', {
                     month: 'short',
                     year: 'numeric',
                   })}
