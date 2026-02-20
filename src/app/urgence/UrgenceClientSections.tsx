@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getWhatsAppUrl, PHONE_NUMBER, PHONE_HREF } from '@/lib/utils'
+import { getWhatsAppUrl } from '@/lib/utils'
 import AnimatedCounter from '@/components/shared/AnimatedCounter'
+import { useSiteSettings } from '@/contexts/SiteSettingsContext'
 
 interface CounterData {
   end: number
@@ -66,11 +67,11 @@ function PhoneIcon({ className }: { className?: string }) {
   )
 }
 
-function HeroCTA() {
+function HeroCTA({ phoneNumber, phoneHref, whatsappNumber }: { phoneNumber: string; phoneHref: string; whatsappNumber: string }) {
   return (
     <div className="flex flex-col sm:flex-row justify-center gap-4">
       <a
-        href={getWhatsAppUrl({ type: 'urgence' })}
+        href={getWhatsAppUrl({ type: 'urgence', whatsappNumber })}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center justify-center gap-3 bg-[#25D366] text-white font-bold text-xl px-10 py-5 rounded-xl hover:bg-[#1da851] active:bg-[#178a43] transition-all shadow-xl hover:shadow-2xl hover:scale-[1.02]"
@@ -79,11 +80,11 @@ function HeroCTA() {
         Contacter par WhatsApp
       </a>
       <a
-        href={PHONE_HREF}
+        href={phoneHref}
         className="inline-flex items-center justify-center gap-3 bg-white/15 backdrop-blur-sm text-white font-bold text-xl px-10 py-5 rounded-xl border-2 border-white/30 hover:bg-white/25 transition-all"
       >
         <PhoneIcon className="w-7 h-7" />
-        {PHONE_NUMBER}
+        {phoneNumber}
       </a>
     </div>
   )
@@ -104,10 +105,10 @@ function CounterBlock({ data }: { data: CounterData }) {
   )
 }
 
-function CTAButton() {
+function CTAButton({ whatsappNumber }: { whatsappNumber: string }) {
   return (
     <a
-      href={getWhatsAppUrl({ type: 'urgence' })}
+      href={getWhatsAppUrl({ type: 'urgence', whatsappNumber })}
       target="_blank"
       rel="noopener noreferrer"
       className="inline-flex items-center gap-3 bg-white text-red-700 font-bold text-xl px-10 py-4 rounded-xl hover:bg-cream transition-colors shadow-lg"
@@ -118,11 +119,11 @@ function CTAButton() {
   )
 }
 
-function FinalCTA() {
+function FinalCTA({ phoneNumber, phoneHref, whatsappNumber }: { phoneNumber: string; phoneHref: string; whatsappNumber: string }) {
   return (
     <div className="flex flex-col sm:flex-row justify-center gap-4">
       <a
-        href={getWhatsAppUrl({ type: 'urgence' })}
+        href={getWhatsAppUrl({ type: 'urgence', whatsappNumber })}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center justify-center gap-3 bg-white text-red-700 font-bold text-2xl px-10 py-5 rounded-xl hover:bg-cream active:bg-sand transition-all shadow-xl hover:shadow-2xl hover:scale-[1.02]"
@@ -131,28 +132,30 @@ function FinalCTA() {
         WhatsApp — Réponse immédiate
       </a>
       <a
-        href={PHONE_HREF}
+        href={phoneHref}
         className="inline-flex items-center justify-center gap-3 bg-white/15 backdrop-blur-sm text-white font-bold text-xl px-10 py-5 rounded-xl border-2 border-white/30 hover:bg-white/25 transition-all"
       >
         <PhoneIcon className="w-7 h-7" />
-        {PHONE_NUMBER}
+        {phoneNumber}
       </a>
     </div>
   )
 }
 
 export default function UrgenceClientSections({ section, data }: UrgenceClientSectionsProps) {
+  const settings = useSiteSettings()
+
   switch (section) {
     case 'liveBadge':
       return <LiveBadge />
     case 'heroCTA':
-      return <HeroCTA />
+      return <HeroCTA phoneNumber={settings.phoneNumber} phoneHref={settings.phoneHref} whatsappNumber={settings.whatsappNumber} />
     case 'counter':
       return data ? <CounterBlock data={data} /> : null
     case 'ctaButton':
-      return <CTAButton />
+      return <CTAButton whatsappNumber={settings.whatsappNumber} />
     case 'finalCTA':
-      return <FinalCTA />
+      return <FinalCTA phoneNumber={settings.phoneNumber} phoneHref={settings.phoneHref} whatsappNumber={settings.whatsappNumber} />
     default:
       return null
   }

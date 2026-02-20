@@ -8,6 +8,7 @@ import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import ReviewsSection from '@/components/shared/ReviewsSection'
 import { FadeIn, FadeInUp, StaggerContainer, StaggerItem, ScaleIn } from '@/components/shared/AnimatedSection'
 import { getWhatsAppUrl } from '@/lib/utils'
+import { getSiteSettings } from '@/lib/settings'
 import { ServiceSchema, BreadcrumbSchema, FAQSchema } from '@/components/seo/StructuredData'
 
 interface Props {
@@ -43,15 +44,17 @@ export function generateMetadata({ params }: Props): Metadata {
   }
 }
 
-export default function ServicePage({ params }: Props) {
+export default async function ServicePage({ params }: Props) {
   const service = services.find(s => s.slug === params.slug)
   if (!service) notFound()
+
+  const { whatsappNumber, phoneNumber } = await getSiteSettings()
 
   const otherServices = services.filter(s => s.slug !== service.slug)
 
   return (
     <>
-      <ServiceSchema service={service} />
+      <ServiceSchema service={service} phoneNumber={phoneNumber} />
       <BreadcrumbSchema items={[
         { name: 'Accueil', href: '/' },
         { name: 'Services', href: '/#services' },
@@ -88,7 +91,7 @@ export default function ServicePage({ params }: Props) {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mt-6">
                 <a
-                  href={getWhatsAppUrl({ service: service.shortTitle, type: 'urgence' })}
+                  href={getWhatsAppUrl({ service: service.shortTitle, type: 'urgence', whatsappNumber })}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-bold px-6 py-3 rounded-lg hover:bg-[#1da851] transition-colors"
@@ -290,7 +293,7 @@ export default function ServicePage({ params }: Props) {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a
-                href={getWhatsAppUrl({ service: service.shortTitle, type: 'devis' })}
+                href={getWhatsAppUrl({ service: service.shortTitle, type: 'devis', whatsappNumber })}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-bold px-6 py-3 rounded-lg hover:bg-[#1da851] transition-colors"
@@ -406,7 +409,7 @@ export default function ServicePage({ params }: Props) {
               Disponible 24h/24, 7j/7 — intervention en moins d&apos;une heure.
             </p>
             <a
-              href={getWhatsAppUrl({ service: service.shortTitle, type: 'urgence' })}
+              href={getWhatsAppUrl({ service: service.shortTitle, type: 'urgence', whatsappNumber })}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 bg-white text-red-600 font-bold text-xl px-8 py-4 rounded-xl hover:bg-cream transition-colors"

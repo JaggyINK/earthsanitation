@@ -3,15 +3,14 @@ import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import {
   COMPANY_NAME,
   COMPANY_FULL_NAME,
-  COMPANY_EMAIL,
   COMPANY_ADDRESS,
   COMPANY_SIRET,
   COMPANY_RCS,
   COMPANY_TVA,
   COMPANY_CAPITAL,
   COMPANY_DIRECTOR,
-  PHONE_NUMBER,
 } from '@/lib/utils'
+import { getSiteSettings } from '@/lib/settings'
 
 export const metadata: Metadata = {
   title: 'Mentions légales',
@@ -19,7 +18,8 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export default function MentionsLegalesPage() {
+export default async function MentionsLegalesPage() {
+  const { phoneNumber, companyEmail } = await getSiteSettings()
   return (
     <>
       <section className="bg-forest text-cream py-14">
@@ -40,8 +40,8 @@ export default function MentionsLegalesPage() {
             <strong>N&deg; TVA intracommunautaire :</strong> {COMPANY_TVA}<br />
             <strong>Directeur de la publication :</strong> {COMPANY_DIRECTOR}<br />
             <strong>Si&egrave;ge social :</strong> {COMPANY_ADDRESS}<br />
-            <strong>T&eacute;l&eacute;phone :</strong> {PHONE_NUMBER}<br />
-            <strong>Email :</strong> {COMPANY_EMAIL}
+            <strong>T&eacute;l&eacute;phone :</strong> {phoneNumber}<br />
+            <strong>Email :</strong> {companyEmail}
           </p>
 
           <h2 className="text-forest">2. H&eacute;bergement</h2>
@@ -71,7 +71,7 @@ export default function MentionsLegalesPage() {
 
           <h2 className="text-forest">6. M&eacute;diation</h2>
           <p>
-            Conform&eacute;ment aux articles L.616-1 et R.616-1 du Code de la consommation, {COMPANY_NAME} propose un dispositif de m&eacute;diation. Pour conna&icirc;tre le nom de notre m&eacute;diateur de la consommation, veuillez nous contacter &agrave; l&apos;adresse suivante : {COMPANY_EMAIL}.
+            Conform&eacute;ment aux articles L.616-1 et R.616-1 du Code de la consommation, {COMPANY_NAME} propose un dispositif de m&eacute;diation. Pour conna&icirc;tre le nom de notre m&eacute;diateur de la consommation, veuillez nous contacter &agrave; l&apos;adresse suivante : {companyEmail}.
           </p>
 
           <h2 className="text-forest">7. Responsabilit&eacute;</h2>

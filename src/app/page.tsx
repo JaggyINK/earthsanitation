@@ -6,6 +6,7 @@ import ReviewsSection from '@/components/shared/ReviewsSection'
 import { services } from '@/data/services'
 import { cities } from '@/data/cities'
 import { getWhatsAppUrl } from '@/lib/utils'
+import { getSiteSettings } from '@/lib/settings'
 import Image from 'next/image'
 import { FadeIn, FadeInUp, StaggerContainer, StaggerItem, ScaleIn } from '@/components/shared/AnimatedSection'
 import AnimatedCounter from '@/components/shared/AnimatedCounter'
@@ -30,7 +31,8 @@ const WaveLine = ({ className }: { className?: string }) => (
   </svg>
 )
 
-export default function Home() {
+export default async function Home() {
+  const { whatsappNumber } = await getSiteSettings()
   return (
     <>
       {/* Hero */}
@@ -266,7 +268,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a
-                href={getWhatsAppUrl({ type: 'urgence' })}
+                href={getWhatsAppUrl({ type: 'urgence', whatsappNumber })}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-white text-red-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-cream hover:scale-105 transition-all duration-200 shadow-lg"

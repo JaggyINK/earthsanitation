@@ -4,6 +4,8 @@ import { LocalBusinessSchema, WebSiteSchema } from '@/components/seo/StructuredD
 import TrackingProvider from '@/components/shared/TrackingProvider'
 import AuthProvider from '@/components/shared/AuthProvider'
 import ConditionalLayout from '@/components/layout/ConditionalLayout'
+import { SiteSettingsProvider } from '@/contexts/SiteSettingsContext'
+import { getSiteSettings } from '@/lib/settings'
 
 const siteUrl = 'https://earth-sanitation.fr'
 
@@ -63,20 +65,24 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const settings = await getSiteSettings()
+
   return (
     <html lang="fr">
       <body className="pb-16 lg:pb-0">
         <AuthProvider>
-          <TrackingProvider>
-            <LocalBusinessSchema />
-            <WebSiteSchema />
-            <ConditionalLayout>{children}</ConditionalLayout>
-          </TrackingProvider>
+          <SiteSettingsProvider settings={settings}>
+            <TrackingProvider>
+              <LocalBusinessSchema phoneNumber={settings.phoneNumber} companyEmail={settings.companyEmail} />
+              <WebSiteSchema />
+              <ConditionalLayout>{children}</ConditionalLayout>
+            </TrackingProvider>
+          </SiteSettingsProvider>
         </AuthProvider>
       </body>
     </html>

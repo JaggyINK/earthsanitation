@@ -128,3 +128,10 @@ model DailyStats {
   phoneClicks  Int      @default(0)
   leads        Int      @default(0)
 }
+
+model SiteSettings {
+  id           String   @id @default("singleton")
+  phoneNumber  String   @default("06 23 12 20 57")
+  companyEmail String   @default("earthsanitationbtp@gmail.com")
+  updatedAt    DateTime @updatedAt
+}

@@ -1,8 +1,8 @@
-import { COMPANY_NAME, PHONE_NUMBER, COMPANY_EMAIL } from '@/lib/utils'
+import { COMPANY_NAME, PHONE_NUMBER } from '@/lib/utils'
 
 const SITE_URL = 'https://earth-sanitation.fr'
 
-export function LocalBusinessSchema() {
+export function LocalBusinessSchema({ phoneNumber, companyEmail }: { phoneNumber?: string; companyEmail?: string }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Plumber',
@@ -10,8 +10,8 @@ export function LocalBusinessSchema() {
     name: COMPANY_NAME,
     description:
       "Spécialiste du débouchage, de l'assainissement et des travaux de canalisations. Intervention 24h/24, 7j/7 sur Montpellier, Nîmes et 100km autour.",
-    telephone: PHONE_NUMBER,
-    email: COMPANY_EMAIL,
+    telephone: phoneNumber || PHONE_NUMBER,
+    email: companyEmail || 'earthsanitationbtp@gmail.com',
     url: SITE_URL,
     logo: `${SITE_URL}/images/logo-og.png`,
     image: `${SITE_URL}/images/logo-og.png`,
@@ -94,7 +94,7 @@ export function LocalBusinessSchema() {
   )
 }
 
-export function ServiceSchema({ service }: { service: { title: string; slug: string; description: string; shortTitle: string } }) {
+export function ServiceSchema({ service, phoneNumber }: { service: { title: string; slug: string; description: string; shortTitle: string }; phoneNumber?: string }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -116,7 +116,7 @@ export function ServiceSchema({ service }: { service: { title: string; slug: str
       serviceUrl: `${SITE_URL}/devis`,
       servicePhone: {
         '@type': 'ContactPoint',
-        telephone: PHONE_NUMBER,
+        telephone: phoneNumber || PHONE_NUMBER,
         contactType: 'customer service',
         availableLanguage: 'French',
         hoursAvailable: {

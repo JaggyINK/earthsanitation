@@ -7,6 +7,7 @@ import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { getWhatsAppUrl } from '@/lib/utils'
+import { getSiteSettings } from '@/lib/settings'
 import ReviewsSection from '@/components/shared/ReviewsSection'
 import Image from 'next/image'
 import { BreadcrumbSchema } from '@/components/seo/StructuredData'
@@ -38,9 +39,11 @@ export function generateMetadata({ params }: Props): Metadata {
   }
 }
 
-export default function VillePage({ params }: Props) {
+export default async function VillePage({ params }: Props) {
   const city = cities.find(c => c.slug === params.ville)
   if (!city) notFound()
+
+  const { whatsappNumber } = await getSiteSettings()
 
   return (
     <>
@@ -102,7 +105,7 @@ export default function VillePage({ params }: Props) {
           </div>
           <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
             <a
-              href={getWhatsAppUrl({ ville: city.name, type: 'urgence' })}
+              href={getWhatsAppUrl({ ville: city.name, type: 'urgence', whatsappNumber })}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-bold px-6 py-3 rounded-lg hover:bg-[#1da851] transition-colors"

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
-import { COMPANY_NAME, COMPANY_EMAIL, COMPANY_ADDRESS } from '@/lib/utils'
+import { COMPANY_NAME, COMPANY_ADDRESS } from '@/lib/utils'
+import { getSiteSettings } from '@/lib/settings'
 
 export const metadata: Metadata = {
   title: 'Politique de confidentialité',
@@ -8,7 +9,8 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export default function PolitiqueConfidentialitePage() {
+export default async function PolitiqueConfidentialitePage() {
+  const { companyEmail } = await getSiteSettings()
   return (
     <>
       <section className="bg-forest text-cream py-14">
@@ -24,7 +26,7 @@ export default function PolitiqueConfidentialitePage() {
             Les donn&eacute;es personnelles collect&eacute;es sur ce site sont trait&eacute;es par :<br />
             <strong>{COMPANY_NAME}</strong><br />
             {COMPANY_ADDRESS}<br />
-            Email : {COMPANY_EMAIL}
+            Email : {companyEmail}
           </p>
 
           <h2 className="text-forest">2. Donn&eacute;es collect&eacute;es</h2>
@@ -73,7 +75,7 @@ export default function PolitiqueConfidentialitePage() {
             <li><strong>Droit &agrave; la portabilit&eacute; :</strong> recevoir vos donn&eacute;es dans un format structur&eacute;</li>
           </ul>
           <p>
-            Pour exercer ces droits, contactez-nous &agrave; : <a href={`mailto:${COMPANY_EMAIL}`} className="text-forest hover:underline">{COMPANY_EMAIL}</a>
+            Pour exercer ces droits, contactez-nous &agrave; : <a href={`mailto:${companyEmail}`} className="text-forest hover:underline">{companyEmail}</a>
           </p>
 
           <h2 className="text-forest">7. Cookies</h2>

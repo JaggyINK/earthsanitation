@@ -1,19 +1,56 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 
 export default function SettingsPage() {
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [companyEmail, setCompanyEmail] = useState('')
+  const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [saveError, setSaveError] = useState('')
+  const [loading, setLoading] = useState(true)
   const [passwordMsg, setPasswordMsg] = useState('')
   const [passwordError, setPasswordError] = useState(false)
   const [changingPassword, setChangingPassword] = useState(false)
 
-  function handleSave(e: React.FormEvent) {
+  useEffect(() => {
+    fetch('/api/admin/settings')
+      .then(res => res.json())
+      .then(data => {
+        setPhoneNumber(data.phoneNumber || '')
+        setCompanyEmail(data.companyEmail || '')
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  async function handleSave(e: React.FormEvent) {
     e.preventDefault()
-    setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
+    setSaving(true)
+    setSaved(false)
+    setSaveError('')
+
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phoneNumber, companyEmail }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        setSaveError(data.error || 'Erreur lors de la sauvegarde.')
+      } else {
+        setSaved(true)
+        setTimeout(() => setSaved(false), 3000)
+      }
+    } catch {
+      setSaveError('Erreur de connexion au serveur.')
+    } finally {
+      setSaving(false)
+    }
   }
 
   async function handlePasswordChange(e: React.FormEvent<HTMLFormElement>) {
@@ -77,15 +114,28 @@ export default function SettingsPage() {
         {/* Informations entreprise */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h2 className="font-heading font-bold text-lg text-gray-900 mb-4">Informations entreprise</h2>
-          <form onSubmit={handleSave} className="space-y-4">
-            <Input label="Nom de l'entreprise" defaultValue="Earth Sanitation" />
-            <Input label="Téléphone principal" defaultValue="06 23 12 20 57" />
-            <Input label="Email" type="email" defaultValue="contact@earthsanitation.fr" />
-            <Input label="Adresse" defaultValue="" placeholder="Adresse complète" />
-            <Input label="SIRET" defaultValue="" placeholder="XXX XXX XXX XXXXX" />
-            <Button type="submit">Enregistrer</Button>
-            {saved && <p className="text-green-600 text-sm">Paramètres enregistrés !</p>}
-          </form>
+          {loading ? (
+            <p className="text-gray-400 text-sm">Chargement...</p>
+          ) : (
+            <form onSubmit={handleSave} className="space-y-4">
+              <Input
+                label="Téléphone principal"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+              <Input
+                label="Email"
+                type="email"
+                value={companyEmail}
+                onChange={(e) => setCompanyEmail(e.target.value)}
+              />
+              <Button type="submit" disabled={saving}>
+                {saving ? 'Enregistrement...' : 'Enregistrer'}
+              </Button>
+              {saved && <p className="text-green-600 text-sm">Paramètres enregistrés !</p>}
+              {saveError && <p className="text-red-600 text-sm">{saveError}</p>}
+            </form>
+          )}
         </div>
 
         {/* API Keys */}

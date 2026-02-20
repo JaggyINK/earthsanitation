@@ -6,7 +6,8 @@ export const PHONE_NUMBER = '06 23 12 20 57'
 export const PHONE_HREF = 'tel:+33623122057'
 export const WHATSAPP_NUMBER = '33623122057'
 
-export function getWhatsAppUrl(context?: { service?: string; ville?: string; type?: 'urgence' | 'devis' | 'contact' | 'general' }) {
+export function getWhatsAppUrl(context?: { service?: string; ville?: string; type?: 'urgence' | 'devis' | 'contact' | 'general'; whatsappNumber?: string }) {
+  const number = context?.whatsappNumber || WHATSAPP_NUMBER
   let message = 'Bonjour Earth Sanitation,\n\n'
 
   if (context?.type === 'urgence') {
@@ -26,7 +27,7 @@ export function getWhatsAppUrl(context?: { service?: string; ville?: string; typ
     message += '.\n\n[Décrivez votre demande ici]\n\nMerci.'
   }
 
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`
 }
 export const COMPANY_NAME = 'Earth Sanitation'
 export const COMPANY_FULL_NAME = 'Earth Sanitation — SASU'

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import HeroBackground from '@/components/shared/HeroBackground'
-import { PHONE_NUMBER, COMPANY_EMAIL, getWhatsAppUrl } from '@/lib/utils'
+import { getWhatsAppUrl } from '@/lib/utils'
+import { getSiteSettings } from '@/lib/settings'
 import ContactFormClient from './ContactFormClient'
 
 export const metadata: Metadata = {
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
   description: 'Contactez Earth Sanitation pour vos problèmes de canalisations et d\'assainissement. Devis gratuit.',
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const { phoneNumber, companyEmail, whatsappNumber } = await getSiteSettings()
+
   return (
     <>
       <section className="relative bg-forest text-cream py-20 lg:py-28 overflow-hidden">
@@ -40,14 +43,14 @@ export default function ContactPage() {
             <div className="space-y-6">
               <div>
                 <h3 className="font-semibold text-forest mb-1">Téléphone</h3>
-                <a href={getWhatsAppUrl({ type: 'contact' })} target="_blank" rel="noopener noreferrer" className="text-sage hover:text-forest transition-colors text-lg">
-                  {PHONE_NUMBER} (WhatsApp)
+                <a href={getWhatsAppUrl({ type: 'contact', whatsappNumber })} target="_blank" rel="noopener noreferrer" className="text-sage hover:text-forest transition-colors text-lg">
+                  {phoneNumber} (WhatsApp)
                 </a>
               </div>
               <div>
                 <h3 className="font-semibold text-forest mb-1">Email</h3>
-                <a href={`mailto:${COMPANY_EMAIL}`} className="text-sage hover:text-forest transition-colors">
-                  {COMPANY_EMAIL}
+                <a href={`mailto:${companyEmail}`} className="text-sage hover:text-forest transition-colors">
+                  {companyEmail}
                 </a>
               </div>
               <div>
