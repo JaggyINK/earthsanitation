@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
+import HeroBackground from '@/components/shared/HeroBackground'
 import { PHONE_NUMBER, COMPANY_EMAIL, getWhatsAppUrl } from '@/lib/utils'
 import ContactFormClient from './ContactFormClient'
 
@@ -11,11 +12,17 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section className="bg-forest text-cream py-14">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-forest text-cream py-20 lg:py-28 overflow-hidden">
+        <HeroBackground />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ name: 'Contact', href: '/contact' }]} />
-          <h1 className="text-3xl sm:text-4xl font-heading font-extrabold">Contactez-nous</h1>
-          <p className="text-cream/80 mt-2">Nous sommes à votre disposition 24h/24, 7j/7.</p>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold mb-6 leading-tight">
+            Contactez-<br />
+            <span className="text-gold">nous</span>
+          </h1>
+          <p className="text-cream/80 text-lg sm:text-xl max-w-2xl leading-relaxed">
+            Nous sommes à votre disposition 24h/24, 7j/7 pour tous vos besoins en assainissement.
+          </p>
         </div>
       </section>
 

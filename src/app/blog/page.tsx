@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Card from '@/components/ui/Card'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
+import HeroBackground from '@/components/shared/HeroBackground'
 import { prisma } from '@/lib/prisma'
 import { ArticleListSchema } from '@/components/seo/StructuredData'
 
@@ -37,18 +38,20 @@ export default async function BlogPage() {
       <ArticleListSchema articles={serializedPosts} />
 
       {/* Header */}
-      <section className="bg-forest text-cream py-12 lg:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-forest text-cream py-20 lg:py-28 overflow-hidden">
+        <HeroBackground />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs
             items={[{ label: 'Blog' }]}
             className="mb-6 text-cream/60"
           />
-          <h1 className="text-3xl lg:text-4xl font-heading font-bold mb-4">
-            Blog & Conseils
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold mb-6 leading-tight">
+            Blog &<br />
+            <span className="text-gold">Conseils</span>
           </h1>
-          <p className="text-cream/80 max-w-2xl">
-            Nos experts partagent leurs connaissances sur l'assainissement,
-            l'entretien des fosses septiques et les bonnes pratiques pour vos canalisations.
+          <p className="text-cream/80 text-lg sm:text-xl max-w-2xl leading-relaxed">
+            Nos experts partagent leurs connaissances sur l&apos;assainissement,
+            l&apos;entretien des fosses septiques et les bonnes pratiques pour vos canalisations.
           </p>
         </div>
       </section>

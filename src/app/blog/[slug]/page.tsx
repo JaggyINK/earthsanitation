@@ -1,10 +1,43 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import PhoneButton from '@/components/shared/PhoneButton'
 import { prisma } from '@/lib/prisma'
 import { ArticleSchema } from '@/components/seo/StructuredData'
+
+// Map blog slugs to featured images based on topic
+const blogImages: Record<string, { src: string; alt: string }> = {
+  'canalisation-bouchee-que-faire-guide-debouchage-montpellier': {
+    src: '/images/about/toilettes.jpeg',
+    alt: 'Technicien Earth Sanitation en intervention de d\u00e9bouchage',
+  },
+  'curage-canalisations-pourquoi-frequence-tout-savoir': {
+    src: '/images/about/camion.jpeg',
+    alt: 'Camion hydrocureur Earth Sanitation pour curage de canalisations',
+  },
+  'inspection-camera-canalisations-quand-pourquoi-diagnostic-video': {
+    src: '/images/about/camera.jpeg',
+    alt: 'Inspection cam\u00e9ra de canalisations en vide sanitaire',
+  },
+  'assainissement-individuel-collectif-quelle-solution-habitation': {
+    src: '/images/about/fosses.jpeg',
+    alt: 'Installation de fosse septique pour assainissement individuel',
+  },
+  'vidange-fosse-septique-frequence-prix-obligations-legales': {
+    src: '/images/about/fosses.jpeg',
+    alt: 'Fosse septique pr\u00eate pour vidange',
+  },
+  'travaux-vrd-comprendre-branchements-reseaux-enterres': {
+    src: '/images/about/travaux.jpeg',
+    alt: 'Chantier de travaux VRD avec mini-chargeur',
+  },
+  'renovation-canalisations-sans-tranchee-techniques-avantages-prix': {
+    src: '/images/about/sanstranchees.jpeg',
+    alt: 'Chantier de r\u00e9novation de canalisations sans tranch\u00e9e',
+  },
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -22,6 +55,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
+  const image = blogImages[slug]
   return {
     title: post.title,
     description: post.excerpt || `Découvrez notre article : ${post.title}`,
@@ -31,6 +65,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: 'article',
       publishedTime: post.publishedAt?.toISOString() || undefined,
       modifiedTime: post.updatedAt.toISOString(),
+      ...(image && { images: [{ url: image.src, alt: image.alt }] }),
     },
   }
 }
@@ -38,14 +73,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 // Fonction pour convertir le Markdown basique en HTML
 function markdownToHtml(content: string): string {
   return content
+    // Horizontal rules
+    .replace(/^---$/gim, '<hr class="my-8 border-t border-sand/50" />')
     // Headers
     .replace(/^### (.*$)/gim, '<h3 class="text-xl font-heading font-semibold text-forest mt-8 mb-4">$1</h3>')
     .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-heading font-bold text-forest mt-10 mb-4">$1</h2>')
     .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-heading font-bold text-forest mt-10 mb-4">$1</h1>')
     // Bold
-    .replace(/\*\*(.*)\*\*/gim, '<strong class="font-semibold text-forest">$1</strong>')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong class="font-semibold text-forest">$1</strong>')
     // Italic
-    .replace(/\*(.*)\*/gim, '<em>$1</em>')
+    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
     // Lists
     .replace(/^\- (.*$)/gim, '<li class="ml-4 text-gray-700">$1</li>')
     .replace(/^(\d+)\. (.*$)/gim, '<li class="ml-4 text-gray-700">$2</li>')
@@ -68,6 +105,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   }
 
   const htmlContent = markdownToHtml(post.content)
+  const featuredImage = blogImages[slug] || null
 
   // Serialize for StructuredData
   const serializedPost = {
@@ -112,8 +150,26 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       </section>
 
+      {/* Featured Image */}
+      {featuredImage && (
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
+          <div className="rounded-2xl overflow-hidden shadow-xl border-4 border-white">
+            <div className="relative h-64 sm:h-80 lg:h-96">
+              <Image
+                src={featuredImage.src}
+                alt={featuredImage.alt}
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Content */}
-      <article className="py-12 lg:py-16">
+      <article className={`py-12 lg:py-16 ${featuredImage ? 'pt-8' : ''}`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-xl shadow-sm p-6 lg:p-10">
             <div
@@ -127,8 +183,13 @@ export default async function BlogPostPage({ params }: PageProps) {
           {/* Author/Company */}
           <div className="mt-8 p-6 bg-cream rounded-xl">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-forest rounded-full flex items-center justify-center shrink-0">
-                <span className="text-cream font-bold">ES</span>
+              <div className="relative w-12 h-12 shrink-0">
+                <Image
+                  src="/images/logo.png"
+                  alt="Earth Sanitation"
+                  fill
+                  className="object-contain"
+                />
               </div>
               <div>
                 <p className="font-heading font-semibold text-forest">Earth Sanitation</p>

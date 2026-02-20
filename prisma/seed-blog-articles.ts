@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 const articles = [
   {
-    title: 'Canalisation bouchée : que faire ? Guide complet du débouchage à Montpellier',
+    title: 'Canalisation bouchée : que faire ? Guide complet du débouchage',
     slug: 'canalisation-bouchee-que-faire-guide-debouchage-montpellier',
     excerpt: "Votre canalisation est bouchée ? Découvrez les causes, les solutions et quand appeler un professionnel du débouchage à Montpellier et alentours.",
     published: true,

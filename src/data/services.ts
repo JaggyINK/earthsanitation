@@ -29,6 +29,7 @@ export interface Service {
   benefits?: string[]
   tips?: string[]
   faq?: ServiceFAQ[]
+  gallery?: { src: string; alt: string; label: string }[]
 }
 
 export const services: Service[] = [
@@ -83,6 +84,10 @@ export const services: Service[] = [
       { question: 'Quelles sont les causes fr\u00e9quentes des bouchons ?', answer: "Le calcaire, les lingettes, les cheveux, la graisse de cuisine et les d\u00e9bris alimentaires sont les causes les plus fr\u00e9quentes. Ces \u00e9l\u00e9ments s'agglom\u00e8rent et forment un bouchon." },
       { question: 'Quelle m\u00e9thode utilisez-vous ?', answer: "Nous utilisons l'hydrocurage haute pression (jusqu'\u00e0 350 bars), le furet \u00e9lectrique, l'inspection par cam\u00e9ra et le test de fum\u00e9e selon la situation." },
     ],
+    gallery: [
+      { src: '/images/about/toilettes.jpeg', alt: 'Technicien en intervention de d\u00e9bouchage avec furet RIDGID', label: 'D\u00e9bouchage WC' },
+      { src: '/images/about/camera.jpeg', alt: 'Inspection des canalisations en vide sanitaire', label: 'Diagnostic canalisations' },
+    ],
   },
   {
     slug: 'curage-canalisations',
@@ -131,6 +136,10 @@ export const services: Service[] = [
       { question: '\u00c0 quelle fr\u00e9quence faut-il curer ses canalisations ?', answer: "Tous les 2 \u00e0 3 ans pour un r\u00e9seau domestique, annuellement pour un usage professionnel (restaurant, etc.)." },
       { question: 'Le curage utilise-t-il des produits chimiques ?', answer: "Non, nous utilisons exclusivement de l'eau sous haute pression. C'est une m\u00e9thode 100% \u00e9cologique, sans aucun produit chimique." },
       { question: 'Intervenez-vous chez les professionnels ?', answer: "Oui, nous intervenons aussi bien pour les particuliers que pour les entreprises et les collectivit\u00e9s." },
+    ],
+    gallery: [
+      { src: '/images/about/camion.jpeg', alt: 'Camion hydrocureur Earth Sanitation', label: 'Camion hydrocureur' },
+      { src: '/images/about/camera.jpeg', alt: 'Canalisations en cours de curage', label: 'Curage en cours' },
     ],
   },
   {
@@ -181,6 +190,10 @@ export const services: Service[] = [
       { question: "Que fait-on si un probl\u00e8me est d\u00e9tect\u00e9 ?", answer: "Les images sont analys\u00e9es avec soin. Selon le diagnostic, nous proc\u00e9dons \u00e0 un hydrocurage, un d\u00e9bouchage cibl\u00e9 ou recommandons des r\u00e9parations sp\u00e9cifiques." },
       { question: "L'inspection est-elle utile avant un achat immobilier ?", answer: "Absolument. Elle permet de d\u00e9tecter des probl\u00e8mes cach\u00e9s (fissures, racines, contrepentes) qui pourraient co\u00fbter tr\u00e8s cher une fois install\u00e9 dans les lieux." },
     ],
+    gallery: [
+      { src: '/images/about/camera.jpeg', alt: 'Cam\u00e9ra endoscopique dans une canalisation', label: 'Inspection en cours' },
+      { src: '/images/about/toilettes.jpeg', alt: 'Diagnostic d\u2019une canalisation bouch\u00e9e', label: 'Diagnostic terrain' },
+    ],
   },
   {
     slug: 'assainissement',
@@ -229,6 +242,10 @@ export const services: Service[] = [
       { question: 'Microstation ou fosse septique ?', answer: "La microstation est plus compacte et offre un meilleur traitement, mais n\u00e9cessite de l'\u00e9lectricit\u00e9. Nous vous conseillons selon votre situation et la taille de votre terrain." },
       { question: 'Quelle diff\u00e9rence entre assainissement individuel et collectif ?', answer: "L'assainissement collectif raccorde au r\u00e9seau public (tout-\u00e0-l'\u00e9gout). L'individuel implique une installation autonome sur votre terrain (fosse septique, microstation...)." },
       { question: 'Prenez-vous en charge les d\u00e9marches administratives ?', answer: "Oui, nous g\u00e9rons le dossier complet : \u00e9tude, conception, demande aupr\u00e8s du SPANC et suivi des travaux." },
+    ],
+    gallery: [
+      { src: '/images/about/fosses.jpeg', alt: 'Installation d\u2019une fosse septique', label: 'Fosse septique' },
+      { src: '/images/about/travaux.jpeg', alt: 'Travaux de terrassement pour assainissement', label: 'Terrassement' },
     ],
   },
   {
@@ -279,6 +296,10 @@ export const services: Service[] = [
       { question: 'Vidangez-vous aussi les bacs \u00e0 graisse ?', answer: "Oui, nous intervenons sur tous types d'installations : fosses septiques, bacs \u00e0 graisse, microstations, pompes de relevage, puisards et piscines." },
       { question: 'Intervenez-vous \u00e0 S\u00e8te et La Grande-Motte ?', answer: "Oui, nous intervenons sur tout l'H\u00e9rault, le Gard et l'Aude dans un rayon de 100 km autour de Montpellier." },
     ],
+    gallery: [
+      { src: '/images/about/fosses.jpeg', alt: 'Fosse septique install\u00e9e', label: 'Fosse septique' },
+      { src: '/images/about/camion.jpeg', alt: 'Camion hydrocureur pour vidange', label: 'Camion hydrocureur' },
+    ],
   },
   {
     slug: 'travaux-vrd',
@@ -326,6 +347,10 @@ export const services: Service[] = [
       { question: 'Faut-il un permis pour les travaux VRD ?', answer: "Selon les cas, une d\u00e9claration pr\u00e9alable ou un permis peut \u00eatre n\u00e9cessaire. Nous g\u00e9rons les d\u00e9marches administratives." },
       { question: 'Intervenez-vous aussi sans tranch\u00e9e ?', answer: "Oui, en compl\u00e9ment des travaux de VRD classiques, nous proposons \u00e9galement la pose de r\u00e9seaux sans tranch\u00e9e pour les situations qui le n\u00e9cessitent." },
       { question: 'Quels types de branchements r\u00e9alisez-vous ?', answer: "Nous r\u00e9alisons tous les branchements : eau potable, \u00e9lectricit\u00e9, gaz, t\u00e9l\u00e9communications et assainissement." },
+    ],
+    gallery: [
+      { src: '/images/about/travaux.jpeg', alt: 'Chantier VRD avec mini-chargeur', label: 'Chantier VRD' },
+      { src: '/images/about/sanstranchees.jpeg', alt: 'Pose de r\u00e9seaux de drainage', label: 'R\u00e9seaux enterr\u00e9s' },
     ],
   },
   {
@@ -375,6 +400,10 @@ export const services: Service[] = [
       { question: 'Quels diam\u00e8tres de tuyaux peut-on poser ?', answer: "De 32 mm \u00e0 400 mm selon la technique utilis\u00e9e (forage dirig\u00e9, \u00e9clatement, chemisage)." },
       { question: "Qu'est-ce que le chemisage ?", answer: "C'est l'insertion d'une gaine souple impr\u00e9gn\u00e9e de r\u00e9sine dans la canalisation. Elle durcit au contact de l'eau pour former un nouveau tuyau \u00e0 l'int\u00e9rieur de l'ancien." },
       { question: "Quels sont les avantages par rapport \u00e0 une tranch\u00e9e classique ?", answer: "Dur\u00e9e de chantier r\u00e9duite, co\u00fbts souvent inf\u00e9rieurs, pas de destruction du terrain, moins de nuisances et empreinte carbone r\u00e9duite." },
+    ],
+    gallery: [
+      { src: '/images/about/sanstranchees.jpeg', alt: 'Chantier de pose sans tranch\u00e9e', label: 'Pose sans tranch\u00e9e' },
+      { src: '/images/about/travaux.jpeg', alt: 'Travaux de r\u00e9habilitation de canalisations', label: 'R\u00e9habilitation' },
     ],
   },
 ]

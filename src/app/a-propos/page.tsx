@@ -1,84 +1,46 @@
 import type { Metadata } from 'next'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
-import Button from '@/components/ui/Button'
+import HeroBackground from '@/components/shared/HeroBackground'
 import ReviewsSection from '@/components/shared/ReviewsSection'
 import CitiesSection from './CitiesSection'
+import AboutContent from './AboutContent'
 
 export const metadata: Metadata = {
-  title: 'À propos',
-  description: "Découvrez Earth Sanitation, votre spécialiste en débouchage et assainissement sur Montpellier et Nîmes.",
+  title: 'À propos — Earth Sanitation',
+  description:
+    "Découvrez Earth Sanitation, votre spécialiste en débouchage, assainissement et travaux de canalisations. Intervention 24h/24 sur Montpellier, Nîmes et alentours.",
 }
 
 export default function AProposPage() {
   return (
     <>
-      <section className="bg-forest text-cream py-14">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Hero */}
+      <section className="relative bg-forest text-cream py-20 lg:py-28 overflow-hidden">
+        <HeroBackground />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ label: 'À propos' }]} className="mb-6 text-cream/60" />
-          <h1 className="text-3xl sm:text-4xl font-heading font-extrabold">À propos d&apos;Earth Sanitation</h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold mb-6 leading-tight">
+            Votre partenaire<br />
+            <span className="text-gold">assainissement</span>
+          </h1>
+          <p className="text-cream/80 text-lg sm:text-xl max-w-2xl leading-relaxed">
+            Spécialistes du débouchage, de l&apos;assainissement et des travaux de canalisations.
+            Intervention rapide 24h/24, 7j/7 sur Montpellier, Nîmes et dans un rayon de 100 km.
+          </p>
         </div>
       </section>
 
-      <section className="py-14">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div>
-            <h2 className="text-2xl font-heading font-bold text-forest mb-4">Notre mission</h2>
-            <p className="text-sage leading-relaxed">
-              Earth Sanitation est une entreprise spécialisée dans le débouchage, l&apos;assainissement
-              et les travaux de canalisations. Nous intervenons en urgence et sur rendez-vous,
-              24h/24 et 7j/7, principalement autour de Montpellier et Nîmes, dans un rayon de 100 km.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-heading font-bold text-forest mb-4">Nos valeurs</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { title: 'Réactivité', desc: "Intervention rapide en moins d'une heure, à toute heure du jour et de la nuit.", icon: '⚡' },
-                { title: 'Transparence', desc: 'Devis clair et détaillé avant chaque intervention. Pas de mauvaise surprise.', icon: '📋' },
-                { title: 'Expertise', desc: 'Techniciens qualifiés et matériel professionnel de dernière génération.', icon: '🔧' },
-              ].map(v => (
-                <div key={v.title} className="bg-cream rounded-xl p-6">
-                  <h3 className="font-heading font-bold text-forest mb-2">{v.title}</h3>
-                  <p className="text-sage text-sm">{v.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Chiffres clés */}
-          <div className="bg-forest rounded-2xl p-8 text-cream">
-            <h2 className="text-2xl font-heading font-bold mb-6 text-center">Earth Sanitation en chiffres</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-              {[
-                { value: '24/7', label: 'Disponibilité' },
-                { value: '< 1h', label: "Délai d'intervention" },
-                { value: '100 km', label: "Rayon d'action" },
-                { value: '59+', label: 'Villes couvertes' },
-              ].map(s => (
-                <div key={s.label}>
-                  <p className="text-3xl font-heading font-extrabold text-gold">{s.value}</p>
-                  <p className="text-cream/70 text-sm mt-1">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex gap-4 pt-4">
-            <Button href="/contact">Nous contacter</Button>
-            <Button href="/devis" variant="outline">Devis gratuit</Button>
-          </div>
-        </div>
-      </section>
+      {/* Client component with all animated sections */}
+      <AboutContent />
 
       {/* Avis clients */}
       <ReviewsSection />
 
-      {/* Trustpilot */}
+      {/* Retrouvez-nous */}
       <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-heading font-bold text-forest mb-6">Retrouvez-nous aussi sur</h2>
-          <div className="flex flex-wrap items-center justify-center gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-6">
             <a
               href="https://www.google.com/maps/place/Earth+Sanitation+BTP"
               target="_blank"
@@ -111,20 +73,6 @@ export default function AProposPage() {
               </div>
             </a>
             <a
-              href="https://www.trustpilot.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-6 py-3 rounded-xl border border-gray-200 hover:border-green-500 hover:shadow-md transition-all"
-            >
-              <svg className="w-6 h-6 text-green-500" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-              </svg>
-              <div className="text-left">
-                <p className="font-semibold text-forest text-sm">Trustpilot</p>
-                <p className="text-xs text-gray-500">Bientôt disponible</p>
-              </div>
-            </a>
-            <a
               href="https://www.pagesjaunes.fr/pros/58439530"
               target="_blank"
               rel="noopener noreferrer"
@@ -144,20 +92,24 @@ export default function AProposPage() {
       <CitiesSection />
 
       {/* CTA final */}
-      <section className="bg-forest text-cream py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative bg-forest text-cream py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,var(--color-sage)_0%,transparent_60%)] opacity-20" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold to-transparent" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl lg:text-3xl font-heading font-bold mb-4">
             Besoin d&apos;une intervention ?
           </h2>
-          <p className="text-cream/80 mb-8">
-            Nos équipes sont disponibles 24h/24 pour tous vos problèmes
+          <p className="text-cream/80 mb-8 max-w-xl mx-auto">
+            Nos techniciens sont disponibles 24h/24 pour tous vos problèmes
             de canalisations et d&apos;assainissement.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="/urgence" variant="emergency">Urgence 24/7</Button>
-            <Button href="/devis" variant="outline" className="border-cream text-cream hover:bg-cream hover:text-forest">
+            <a href="/urgence" className="inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 px-8 py-4 text-lg bg-red-600 text-white hover:bg-red-700 animate-pulse">
+              Urgence 24/7
+            </a>
+            <a href="/devis" className="inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 px-8 py-4 text-lg border-2 border-cream text-cream hover:bg-cream hover:text-forest">
               Demander un devis gratuit
-            </Button>
+            </a>
           </div>
         </div>
       </section>

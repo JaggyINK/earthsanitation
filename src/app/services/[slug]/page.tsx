@@ -125,11 +125,18 @@ export default function ServicePage({ params }: Props) {
         <section className="py-14 lg:py-18">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {service.sections.map((section, i) => (
+              {service.sections.map((section, i) => {
+                const badgeColors = [
+                  'bg-gradient-to-r from-forest to-sage',
+                  'bg-gradient-to-r from-gold to-gold/80',
+                  'bg-gradient-to-r from-sage to-forest',
+                  'bg-gradient-to-r from-forest to-gold/80',
+                ]
+                return (
                 <FadeIn key={i} delay={i * 0.15}>
                   <div className="relative bg-white rounded-2xl border border-sand/40 p-8 h-full group hover:shadow-lg hover:border-forest/20 transition-all duration-300">
                     <div className="absolute top-0 left-8 -translate-y-1/2">
-                      <span className="inline-block bg-forest text-cream text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wide">
+                      <span className={`inline-block ${badgeColors[i % 4]} text-cream text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wide shadow-sm`}>
                         {section.highlight || `Étape ${i + 1}`}
                       </span>
                     </div>
@@ -141,7 +148,8 @@ export default function ServicePage({ params }: Props) {
                     </p>
                   </div>
                 </FadeIn>
-              ))}
+              )
+              })}
             </div>
           </div>
         </section>
@@ -157,11 +165,18 @@ export default function ServicePage({ params }: Props) {
               </h2>
             </FadeIn>
             <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {service.steps.map((step, i) => (
+              {service.steps.map((step, i) => {
+                const colors = [
+                  'from-forest to-forest/80 border-forest/20',
+                  'from-sage to-sage/80 border-sage/20',
+                  'from-gold to-gold/80 border-gold/20',
+                  'from-forest to-sage border-forest/20',
+                ]
+                return (
                 <StaggerItem key={i}>
                   <div className="relative h-full">
-                    <div className="bg-cream rounded-2xl p-6 h-full hover:shadow-md transition-shadow duration-300">
-                      <div className="w-10 h-10 bg-forest text-cream rounded-full flex items-center justify-center font-bold text-lg mb-4">
+                    <div className="bg-white rounded-2xl p-6 h-full border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                      <div className={`w-10 h-10 bg-gradient-to-br ${colors[i % 4]} text-cream rounded-full flex items-center justify-center font-bold text-lg mb-4 group-hover:scale-110 transition-transform duration-300`}>
                         {i + 1}
                       </div>
                       <h3 className="font-heading font-bold text-forest text-lg mb-2">{step.title}</h3>
@@ -176,7 +191,8 @@ export default function ServicePage({ params }: Props) {
                     )}
                   </div>
                 </StaggerItem>
-              ))}
+              )
+              })}
             </StaggerContainer>
           </div>
         </section>
@@ -218,6 +234,46 @@ export default function ServicePage({ params }: Props) {
                 </div>
               </ScaleIn>
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Galerie photos terrain */}
+      {service.gallery && service.gallery.length > 0 && (
+        <section className="py-16 lg:py-20 bg-cream/30">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <FadeIn>
+              <div className="text-center mb-10">
+                <span className="inline-block bg-sage/10 text-sage text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-sage/20">
+                  Sur le terrain
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-heading font-bold text-forest">
+                  Nos interventions en images
+                </h2>
+              </div>
+            </FadeIn>
+            <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {service.gallery.map((photo, i) => (
+                <StaggerItem key={i}>
+                  <div className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 border border-gray-100">
+                    <div className="aspect-[4/3] relative">
+                      <Image
+                        src={photo.src}
+                        alt={photo.alt}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-forest/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
+                      <span className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-forest text-sm font-semibold px-4 py-2 rounded-full shadow-lg">
+                        {photo.label}
+                      </span>
+                    </div>
+                  </div>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
           </div>
         </section>
       )}

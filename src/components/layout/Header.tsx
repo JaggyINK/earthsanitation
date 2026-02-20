@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import PhoneButton from '@/components/shared/PhoneButton'
 import { COMPANY_NAME } from '@/lib/utils'
 import { services } from '@/data/services'
@@ -56,20 +57,37 @@ interface HeaderProps {
 export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProps) {
   const [servicesOpen, setServicesOpen] = useState(false)
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const closeMenu = () => {
     setMobileMenuOpen(false)
     setMobileServicesOpen(false)
   }
 
+  const isActive = (href: string) => {
+    if (href === '/') return pathname === '/'
+    return pathname.startsWith(href)
+  }
+
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
+      <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/98 backdrop-blur-md shadow-md' : 'bg-white/95 backdrop-blur-sm shadow-sm'}`}>
+        {/* Top accent line with pipe-inspired gradient */}
+        <div className="h-[3px] bg-gradient-to-r from-forest via-gold/80 to-sage" />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2" onClick={closeMenu}>
-              <div className="relative w-12 h-12">
+          <div className="flex items-center justify-between h-16 lg:h-[72px]">
+            {/* Logo with pipe connector effect */}
+            <Link href="/" className="flex items-center gap-2.5 group" onClick={closeMenu}>
+              <div className="relative w-12 h-12 transition-transform duration-300 group-hover:scale-105">
                 <Image
                   src="/images/logo.png"
                   alt={`${COMPANY_NAME} logo`}
@@ -78,53 +96,113 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
                   priority
                 />
               </div>
-              <span className="font-heading font-bold text-xl text-forest hidden sm:block">
-                {COMPANY_NAME}
-              </span>
+              {/* Pipe connector between logo and name */}
+              <div className="hidden sm:flex items-center gap-2">
+                <div className="w-5 h-[3px] bg-gradient-to-r from-forest to-gold/60 rounded-full" />
+                <span className="font-heading font-bold text-xl text-forest group-hover:text-sage transition-colors duration-300">
+                  {COMPANY_NAME}
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-6">
-              {navLinks.map(link => (
-                <div key={link.href} className="relative group">
-                  {link.children ? (
-                    <>
-                      <button
-                        className="text-forest hover:text-sage font-medium transition-colors py-2"
-                        onMouseEnter={() => setServicesOpen(true)}
-                        onMouseLeave={() => setServicesOpen(false)}
+            <nav className="hidden lg:flex items-center gap-1">
+              {navLinks.map(link => {
+                const active = link.children
+                  ? pathname.startsWith('/services')
+                  : isActive(link.href)
+
+                return (
+                  <div key={link.href} className="relative group">
+                    {link.children ? (
+                      <>
+                        <button
+                          className={`relative flex items-center gap-1 px-3 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${
+                            active
+                              ? 'text-forest bg-forest/5'
+                              : 'text-forest/80 hover:text-forest hover:bg-cream/60'
+                          }`}
+                          onMouseEnter={() => setServicesOpen(true)}
+                          onMouseLeave={() => setServicesOpen(false)}
+                        >
+                          {/* Wrench icon for services */}
+                          <svg className="w-4 h-4 text-sage" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
+                          </svg>
+                          {link.label}
+                          <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                          {/* Active indicator pipe */}
+                          {active && <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-gold rounded-full" />}
+                        </button>
+                        {/* Dropdown */}
+                        <div
+                          className={`absolute top-full left-0 pt-2 transition-all duration-200 ${servicesOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-1'}`}
+                          onMouseEnter={() => setServicesOpen(true)}
+                          onMouseLeave={() => setServicesOpen(false)}
+                        >
+                          <div className="bg-white rounded-xl shadow-xl border border-sand/30 py-2 min-w-56 overflow-hidden">
+                            {/* Pipe accent top */}
+                            <div className="h-[2px] bg-gradient-to-r from-forest via-gold/60 to-sage mx-3 mb-1 rounded-full" />
+                            {link.children.map((child, i) => (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-200 ${
+                                  pathname === child.href
+                                    ? 'bg-forest/5 text-forest font-semibold'
+                                    : 'text-forest/80 hover:bg-cream/60 hover:text-forest hover:pl-5'
+                                }`}
+                              >
+                                {/* Small pipe dot */}
+                                <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                                  pathname === child.href ? 'bg-gold' : 'bg-sand/60'
+                                }`} />
+                                {child.label}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    ) : link.highlight ? (
+                      /* Urgence — red pulsing */
+                      <Link
+                        href={link.href}
+                        className="relative flex items-center gap-1.5 px-3 py-2 rounded-lg font-semibold text-sm text-red-600 hover:bg-red-50 transition-all duration-200"
+                      >
+                        <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                        {link.label}
+                      </Link>
+                    ) : link.cta ? (
+                      /* Devis gratuit — gold CTA */
+                      <Link
+                        href={link.href}
+                        className="ml-1 flex items-center gap-1.5 px-4 py-2 rounded-lg font-semibold text-sm bg-gold/10 text-gold border border-gold/20 hover:bg-gold/20 hover:border-gold/40 transition-all duration-200"
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                        </svg>
+                        {link.label}
+                      </Link>
+                    ) : (
+                      /* Normal link */
+                      <Link
+                        href={link.href}
+                        className={`relative px-3 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${
+                          active
+                            ? 'text-forest bg-forest/5'
+                            : 'text-forest/80 hover:text-forest hover:bg-cream/60'
+                        }`}
                       >
                         {link.label}
-                        <svg className="inline w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                      <div
-                        className={`absolute top-full left-0 bg-white rounded-xl shadow-lg py-2 min-w-55 transition-all duration-200 ${servicesOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
-                        onMouseEnter={() => setServicesOpen(true)}
-                        onMouseLeave={() => setServicesOpen(false)}
-                      >
-                        {link.children.map(child => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className="block px-4 py-2 text-forest hover:bg-cream transition-colors"
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className="text-forest hover:text-sage font-medium transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  )}
-                </div>
-              ))}
+                        {/* Active indicator pipe */}
+                        {active && <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-gold rounded-full" />}
+                      </Link>
+                    )}
+                  </div>
+                )
+              })}
             </nav>
 
             {/* Desktop CTA */}
@@ -157,7 +235,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
 
       {/* Mobile Menu — fullscreen overlay, OUTSIDE header to escape stacking context */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-16 z-[60] bg-white overflow-y-auto">
+        <div className="lg:hidden fixed inset-0 top-[67px] z-[60] bg-white overflow-y-auto">
           {/* Subtle background decorations */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-forest via-gold/40 to-forest" />
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl" />
@@ -166,7 +244,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
           <svg className="absolute bottom-40 left-6 w-3 h-4 text-gold/[0.08]" viewBox="0 0 24 32" fill="currentColor"><path d="M12 0C12 0 0 14.4 0 22c0 6.627 5.373 10 12 10s12-3.373 12-10C24 14.4 12 0 12 0z" /></svg>
 
           <nav className="relative flex flex-col px-5 py-6 pb-8">
-            {navLinks.map((link, i) => (
+            {navLinks.map((link) => (
               <div key={link.href}>
                 {/* Separator before CTA */}
                 {link.cta && <div className="my-2 border-t border-sand/30" />}
