@@ -81,7 +81,11 @@
       "mcp__chrome-devtools__emulate",
       "mcp__chrome-devtools__list_pages",
       "mcp__chrome-devtools__list_console_messages",
-      "Bash(npx next build:*)"
+      "Bash(npx next build:*)",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker ps --format ''{{.Names}}'' | grep ecccgswk\")",
+      "Bash(sshpass -p 'EarthSanitationLaflynch01@' ssh -o StrictHostKeyChecking=no root@91.108.112.240 \"docker exec ecccgswk0k0gsoc4084gkc8s-163756707442 npx prisma db seed\")",
+      "Bash(git add:*)",
+      "Bash(git remote set-url:*)"
     ]
   }
 }
