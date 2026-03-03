@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { contactSchema } from '@/lib/validations'
 import { prisma } from '@/lib/prisma'
+import { sendLeadNotification } from '@/lib/mailer'
 
 export async function POST(request: Request) {
   try {
@@ -41,6 +42,21 @@ export async function POST(request: Request) {
     })
 
     console.log('New lead saved:', lead.id)
+
+    // Send email notification (non-blocking — don't fail the request if email fails)
+    sendLeadNotification({
+      name,
+      phone,
+      email: email || undefined,
+      message,
+      type,
+      service: body.service,
+      city: body.city,
+      address: body.address,
+      urgency: body.urgency,
+      clientType: body.clientType,
+      company: body.company,
+    }).catch(err => console.error('Email notification error:', err))
 
     return NextResponse.json({ success: true, id: lead.id })
   } catch (error) {
