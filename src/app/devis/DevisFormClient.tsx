@@ -22,12 +22,16 @@ export default function DevisFormClient() {
       // Upload photos first if any
       let photoUrls: string[] = []
       if (photos.length > 0) {
-        const uploadData = new FormData()
-        photos.forEach(f => uploadData.append('photos', f))
-        const uploadRes = await fetch('/api/upload/lead', { method: 'POST', body: uploadData })
-        if (uploadRes.ok) {
-          const uploadJson = await uploadRes.json()
-          photoUrls = uploadJson.urls || []
+        try {
+          const uploadData = new FormData()
+          photos.forEach(f => uploadData.append('photos', f))
+          const uploadRes = await fetch('/api/upload/lead', { method: 'POST', body: uploadData })
+          if (uploadRes.ok) {
+            const uploadJson = await uploadRes.json()
+            photoUrls = uploadJson.urls || []
+          }
+        } catch {
+          // Photo upload failed — continue without photos
         }
       }
 
@@ -61,6 +65,8 @@ export default function DevisFormClient() {
         setPhotos([])
         setClientType('particulier')
       } else {
+        const errData = await res.json().catch(() => null)
+        console.error('Contact API error:', res.status, errData)
         setStatus('error')
       }
     } catch {

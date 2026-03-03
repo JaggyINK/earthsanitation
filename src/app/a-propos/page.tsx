@@ -4,6 +4,7 @@ import HeroBackground from '@/components/shared/HeroBackground'
 import ReviewsSection from '@/components/shared/ReviewsSection'
 import CitiesSection from './CitiesSection'
 import AboutContent from './AboutContent'
+import AddToContacts from '@/components/shared/AddToContacts'
 
 export const metadata: Metadata = {
   title: 'À propos — Earth Sanitation',
@@ -113,6 +114,12 @@ export default function AProposPage() {
             <a href="/devis" className="inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 px-8 py-4 text-lg border-2 border-cream text-cream hover:bg-cream hover:text-forest">
               Demander un devis gratuit
             </a>
+          </div>
+          <div className="mt-6 md:hidden text-center">
+            <p className="text-cream/60 text-sm mb-3">
+              Une urgence, ca ne prévient pas. Enregistrez notre numéro maintenant.
+            </p>
+            <AddToContacts className="justify-center bg-cream/10 border-cream/30 hover:bg-cream/20" message="Enregistrer dans mes contacts" />
           </div>
         </div>
       </section>

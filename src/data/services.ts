@@ -63,7 +63,7 @@ export const services: Service[] = [
     ],
     benefits: [
       'Intervention en urgence en 45 minutes',
-      'Disponible 24h/24, 7j/7 sans surco\u00fbt',
+      'Disponible 24h/24, 7j/7',
       'Mat\u00e9riel professionnel haute pression (350 bars)',
       'Devis gratuit avant intervention',
       'Chantier propre apr\u00e8s chaque intervention',
@@ -78,8 +78,8 @@ export const services: Service[] = [
       "Envoyez-nous les photos des d\u00e9g\u00e2ts via WhatsApp pour faciliter le diagnostic.",
     ],
     faq: [
-      { question: 'Combien co\u00fbte un d\u00e9bouchage de canalisation ?', answer: "Le prix d\u00e9pend de la complexit\u00e9 de l'intervention. Nous fournissons un devis gratuit et sans engagement avant toute intervention. Contactez-nous pour un devis pr\u00e9cis." },
-      { question: 'Intervenez-vous la nuit et le week-end ?', answer: "Oui, nous sommes disponibles 24h/24, 7j/7 sans surco\u00fbt, y compris nuits, week-ends et jours f\u00e9ri\u00e9s." },
+      { question: 'Combien co\u00fbte un d\u00e9bouchage de canalisation ?', answer: "Le prix d\u00e9pend de la complexit\u00e9 et de l'heure de l'intervention. Un tarif d'astreinte peut s'appliquer en dehors des heures ouvrées. Nous fournissons un devis gratuit et sans engagement avant toute intervention." },
+      { question: 'Intervenez-vous la nuit et le week-end ?', answer: "Oui, nous sommes disponibles 24h/24, 7j/7, y compris nuits, week-ends et jours f\u00e9ri\u00e9s. Un tarif d'astreinte peut s'appliquer selon l'heure." },
       { question: 'Quels types de canalisations d\u00e9bouchez-vous ?', answer: "Toutes : \u00e9viers, WC, douches, baignoires, descentes d'eaux pluviales, regards d'\u00e9gouts, vides sanitaires, collecteurs..." },
       { question: 'Quelles sont les causes fr\u00e9quentes des bouchons ?', answer: "Le calcaire, les lingettes, les cheveux, la graisse de cuisine et les d\u00e9bris alimentaires sont les causes les plus fr\u00e9quentes. Ces \u00e9l\u00e9ments s'agglom\u00e8rent et forment un bouchon." },
       { question: 'Quelle m\u00e9thode utilisez-vous ?', answer: "Nous utilisons l'hydrocurage haute pression (jusqu'\u00e0 350 bars), le furet \u00e9lectrique, l'inspection par cam\u00e9ra et le test de fum\u00e9e selon la situation." },

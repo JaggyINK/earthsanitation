@@ -10,6 +10,7 @@ import { getSiteSettings } from '@/lib/settings'
 import Image from 'next/image'
 import { FadeIn, FadeInUp, StaggerContainer, StaggerItem, ScaleIn } from '@/components/shared/AnimatedSection'
 import AnimatedCounter from '@/components/shared/AnimatedCounter'
+import AddToContacts from '@/components/shared/AddToContacts'
 
 /* Inline SVG icons used as subtle background decorations */
 const WaterDrop = ({ className }: { className?: string }) => (
@@ -84,6 +85,9 @@ export default async function Home() {
                 <Button href="/devis" size="lg" className="w-full sm:w-auto justify-center bg-white text-forest hover:bg-cream shadow-lg">
                   Devis gratuit
                 </Button>
+              </div>
+              <div className="mt-3">
+                <AddToContacts className="w-full justify-center" />
               </div>
             </FadeIn>
           </div>

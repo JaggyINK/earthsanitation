@@ -13,7 +13,9 @@ export async function POST(request: Request) {
     const result = contactSchema.safeParse(body)
 
     if (!result.success) {
-      console.error('Validation errors:', result.error.flatten().fieldErrors)
+      console.error('Validation errors:', JSON.stringify(result.error.flatten().fieldErrors))
+      console.error('Received body keys:', Object.keys(body))
+      console.error('Received values:', { name: body.name?.length, phone: body.phone?.length, message: body.message?.length, type: body.type })
       return NextResponse.json(
         { error: 'Données invalides.', details: result.error.flatten().fieldErrors },
         { status: 400 }

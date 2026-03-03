@@ -9,11 +9,11 @@ import UrgenceClientSections from './UrgenceClientSections'
 const urgenceFaqs = [
   {
     question: 'Intervenez-vous vraiment la nuit et le week-end ?',
-    answer: "Oui, nous sommes disponibles 24h/24 et 7j/7, y compris les jours fériés. Un technicien de garde est toujours prêt à intervenir. Et contrairement à beaucoup de prestataires, nous n'appliquons aucune majoration pour les interventions hors horaires classiques.",
+    answer: "Oui, nous sommes disponibles 24h/24 et 7j/7, y compris les jours fériés. Un technicien de garde est toujours prêt à intervenir. Un tarif d'astreinte peut s'appliquer en dehors des heures ouvrées — il vous sera communiqué avant toute intervention.",
   },
   {
     question: "Combien coûte une intervention d'urgence ?",
-    answer: "Le tarif dépend de la nature du problème. Un débouchage simple commence autour de 80-150 €. Nous vous communiquons un devis précis et gratuit avant toute intervention, sans engagement. Aucun surcoût surprise.",
+    answer: "Le tarif dépend de la nature et de l'heure de l'intervention (un tarif d'astreinte peut s'appliquer en dehors des heures ouvrées). Nous vous communiquons un devis précis et gratuit avant toute intervention, sans engagement.",
   },
   {
     question: "Quel est votre délai d'intervention ?",
@@ -36,7 +36,7 @@ const urgenceFaqs = [
 export const metadata: Metadata = {
   title: 'Urgence Débouchage 24h/24 7j/7 — Intervention < 1h',
   description:
-    "Urgence canalisation bouchée, refoulement, inondation ? Intervention en moins d'1h sur Montpellier, Nîmes et 100km autour. Disponible 24h/24 7j/7. Sans surcoût nuit et week-end.",
+    "Urgence canalisation bouchée, refoulement, inondation ? Intervention en moins d'1h sur Montpellier, Nîmes et 100km autour. Disponible 24h/24 7j/7. Devis gratuit avant intervention.",
   alternates: {
     canonical: 'https://earth-sanitation.fr/urgence',
   },
@@ -75,8 +75,8 @@ export default function UrgencePage() {
             </p>
 
             <p className="text-white/70 text-sm mb-8 max-w-xl mx-auto">
-              Sans surcoût la nuit, le week-end et les jours fériés.
-              Devis gratuit avant toute intervention.
+              Tarifs adaptés selon l&apos;heure d&apos;intervention (astreinte nuit/week-end).
+              Devis gratuit et transparent avant toute intervention.
             </p>
 
             <UrgenceClientSections section="heroCTA" />
@@ -98,7 +98,7 @@ export default function UrgencePage() {
               <UrgenceClientSections section="counter" data={{ end: 98, suffix: '%', label: 'Clients satisfaits' }} />
             </div>
             <div>
-              <UrgenceClientSections section="counter" data={{ end: 0, suffix: '', label: 'Surcoût nuit/week-end', prefix: '' , displayText: '0 €' }} />
+              <UrgenceClientSections section="counter" data={{ end: 0, suffix: '', label: 'Frais de déplacement', prefix: '' , displayText: '0 €' }} />
             </div>
           </div>
         </div>
@@ -208,30 +208,30 @@ export default function UrgencePage() {
                 {
                   time: 'Premières heures',
                   title: 'Bouchon partiel',
-                  desc: 'L\'eau s\'écoule lentement. C\'est le moment idéal pour intervenir : un simple débouchage suffit. Coût minimal.',
+                  desc: 'L\'eau s\'écoule lentement. C\'est le moment idéal pour intervenir : un simple débouchage suffit. Intervention rapide et économique.',
                   color: 'yellow',
-                  cost: '80 - 150 €',
+                  severity: 'Intervention simple',
                 },
                 {
                   time: 'Après 24-48h',
                   title: 'Bouchon complet',
                   desc: 'L\'eau ne s\'écoule plus du tout. Risque de refoulement. Le bouchon se solidifie et nécessite un hydrocurage.',
                   color: 'orange',
-                  cost: '150 - 350 €',
+                  severity: 'Intervention plus lourde',
                 },
                 {
                   time: 'Après plusieurs jours',
                   title: 'Dégât des eaux',
                   desc: 'Débordements, infiltrations dans les murs et plafonds. Moisissures. Les dommages structurels commencent.',
                   color: 'red',
-                  cost: '500 - 2 000 €+',
+                  severity: 'Coûts en forte hausse',
                 },
                 {
                   time: 'Après des semaines',
                   title: 'Dommages irréversibles',
                   desc: 'Effondrement de canalisation, contamination, dommages structurels majeurs. Travaux lourds nécessaires.',
                   color: 'red',
-                  cost: '2 000 - 10 000 €+',
+                  severity: 'Travaux très coûteux',
                 },
               ].map((item, i) => (
                 <div key={item.time} className={`md:grid md:grid-cols-2 md:gap-8 ${i % 2 === 0 ? '' : 'md:direction-rtl'}`}>
@@ -261,7 +261,7 @@ export default function UrgencePage() {
                             ? 'text-orange-700'
                             : 'text-red-700'
                       }`}>
-                        Coût estimé : {item.cost}
+                        {item.severity}
                       </p>
                     </div>
                   </div>
@@ -363,8 +363,8 @@ export default function UrgencePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
                   </svg>
                 ),
-                title: 'Aucun surcoût caché',
-                desc: 'Même tarif de jour comme de nuit. Pas de frais de déplacement. Le devis est établi et approuvé avant l\'intervention.',
+                title: 'Tarifs transparents',
+                desc: 'Devis gratuit et détaillé avant chaque intervention. Tarif d\'astreinte clairement annoncé pour les interventions hors horaires. Pas de surprise.',
               },
               {
                 icon: (
@@ -410,11 +410,11 @@ export default function UrgencePage() {
             {[
               {
                 q: 'Intervenez-vous vraiment la nuit et le week-end ?',
-                a: 'Oui, nous sommes disponibles 24h/24 et 7j/7, y compris les jours fériés. Un technicien de garde est toujours prêt à intervenir. Et contrairement à beaucoup de prestataires, nous n\'appliquons aucune majoration pour les interventions hors horaires classiques.',
+                a: 'Oui, nous sommes disponibles 24h/24 et 7j/7, y compris les jours fériés. Un technicien de garde est toujours prêt à intervenir. Un tarif d\'astreinte peut s\'appliquer en dehors des heures ouvrées — il vous sera communiqué avant toute intervention.',
               },
               {
                 q: 'Combien coûte une intervention d\'urgence ?',
-                a: 'Le tarif dépend de la nature du problème. Un débouchage simple commence autour de 80-150 €. Nous vous communiquons un devis précis et gratuit avant toute intervention, sans engagement. Aucun surcoût surprise.',
+                a: 'Le tarif dépend de la nature et de l\'heure de l\'intervention (un tarif d\'astreinte peut s\'appliquer en dehors des heures ouvrées). Nous vous communiquons un devis précis et gratuit avant toute intervention, sans engagement.',
               },
               {
                 q: 'Quel est votre délai d\'intervention ?',

@@ -77,7 +77,7 @@ Le prix dépend de la complexité de l'intervention, de l'accessibilité de la c
 
 ## Earth Sanitation intervient-il la nuit et le week-end ?
 
-Oui, nous sommes disponibles **24h/24 et 7j/7**, y compris les nuits, week-ends et jours fériés, **sans surcoût**. Notre temps d'intervention moyen est de 45 minutes sur Montpellier et ses environs.
+Oui, nous sommes disponibles **24h/24 et 7j/7**, y compris les nuits, week-ends et jours fériés. Un tarif d'astreinte peut s'appliquer en dehors des heures ouvrées. Notre temps d'intervention moyen est de 45 minutes sur Montpellier et ses environs.
 
 ## Comment éviter les bouchons à l'avenir ?
 
