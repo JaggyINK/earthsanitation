@@ -59,10 +59,13 @@ function Stars({ rating }: { rating: number }) {
   )
 }
 
+const GOOGLE_REVIEWS_URL = 'https://www.google.com/maps/place/Earth+Sanitation+BTP+-+D%C3%A9bouchage+de+Canalisation+Montpellier/@43.6170835,3.8390104,630m/data=!3m3!1e3!4b1!5s0x12b6ae8c6e1b2803:0x21ecf3a9ed429496!4m6!3m5!1s0x12b6afdf27033bc1:0xdb10b499d54701e6!8m2!3d43.6170835!4d3.8415853!16s%2Fg%2F11x85nx8_4?entry=ttu'
+
 export default function ReviewsSection() {
   const [reviews, setReviews] = useState<Review[]>([])
   const [stats, setStats] = useState<Stats | null>(null)
   const [loading, setLoading] = useState(true)
+  const [showAll, setShowAll] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
@@ -83,6 +86,15 @@ export default function ReviewsSection() {
     }
     fetchData()
   }, [])
+
+  // Top 6 = avis 5 étoiles les plus récents, puis les autres par note décroissante
+  const sortedReviews = [...reviews].sort((a, b) => {
+    if (b.rating !== a.rating) return b.rating - a.rating
+    return new Date(b.time).getTime() - new Date(a.time).getTime()
+  })
+  const topReviews = sortedReviews.slice(0, 6)
+  const displayedReviews = showAll ? sortedReviews : topReviews
+  const hasMore = sortedReviews.length > 6
 
   if (loading) {
     return (
@@ -139,7 +151,7 @@ export default function ReviewsSection() {
 
         {/* Grille d'avis */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reviews.slice(0, 6).map(review => (
+          {displayedReviews.map(review => (
             <div
               key={review.id}
               className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
@@ -217,15 +229,38 @@ export default function ReviewsSection() {
           ))}
         </div>
 
-        {/* Lien Google */}
-        <div className="text-center mt-10">
+        {/* Voir plus / Voir moins + lien Google */}
+        <div className="text-center mt-10 flex flex-col items-center gap-4">
+          {hasMore && (
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-forest text-white font-medium rounded-lg hover:bg-forest/90 transition-colors"
+            >
+              {showAll ? (
+                <>
+                  Voir moins
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                  </svg>
+                </>
+              ) : (
+                <>
+                  Voir les {sortedReviews.length} avis
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </>
+              )}
+            </button>
+          )}
           <a
-            href="https://www.google.com/maps/place/Earth+Sanitation+BTP+-+D%C3%A9bouchage+de+Canalisation+Montpellier/@43.6170835,3.8390104,630m/data=!3m3!1e3!4b1!5s0x12b6ae8c6e1b2803:0x21ecf3a9ed429496!4m6!3m5!1s0x12b6afdf27033bc1:0xdb10b499d54701e6!8m2!3d43.6170835!4d3.8415853!16s%2Fg%2F11x85nx8_4?entry=ttu&g_ep=EgoyMDI2MDEyOC4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D"
+            href={GOOGLE_REVIEWS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-forest hover:text-forest/80 font-medium"
           >
-            Voir tous les avis sur Google
+            {sourceIcons.google}
+            Voir nos avis sur Google
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
             </svg>
