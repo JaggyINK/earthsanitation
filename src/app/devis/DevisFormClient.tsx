@@ -11,6 +11,29 @@ export default function DevisFormClient() {
   const [clientType, setClientType] = useState<'particulier' | 'professionnel'>('particulier')
   const [photos, setPhotos] = useState<File[]>([])
 
+  async function compressPhoto(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const img = new window.Image()
+      const objectUrl = URL.createObjectURL(file)
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl)
+        const canvas = document.createElement('canvas')
+        const MAX = 1200
+        let { width, height } = img
+        if (width > MAX || height > MAX) {
+          if (width > height) { height = Math.round(height * MAX / width); width = MAX }
+          else { width = Math.round(width * MAX / height); height = MAX }
+        }
+        canvas.width = width
+        canvas.height = height
+        canvas.getContext('2d')!.drawImage(img, 0, 0, width, height)
+        resolve(canvas.toDataURL('image/jpeg', 0.7))
+      }
+      img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Image load failed')) }
+      img.src = objectUrl
+    })
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setStatus('sending')
@@ -19,19 +42,13 @@ export default function DevisFormClient() {
     const emailValue = (data.get('email') as string)?.trim()
 
     try {
-      // Upload photos first if any
-      let photoUrls: string[] = []
+      // Compress photos to base64 on client
+      let photoData: string[] = []
       if (photos.length > 0) {
         try {
-          const uploadData = new FormData()
-          photos.forEach(f => uploadData.append('photos', f))
-          const uploadRes = await fetch('/api/upload/lead', { method: 'POST', body: uploadData })
-          if (uploadRes.ok) {
-            const uploadJson = await uploadRes.json()
-            photoUrls = uploadJson.urls || []
-          }
+          photoData = await Promise.all(photos.map(f => compressPhoto(f)))
         } catch {
-          // Photo upload failed — continue without photos
+          // Photo compression failed — continue without photos
         }
       }
 
@@ -45,7 +62,7 @@ export default function DevisFormClient() {
         address: data.get('address') || undefined,
         urgency: data.get('urgency') || undefined,
         clientType,
-        photos: photoUrls,
+        photos: photoData,
       }
 
       if (emailValue) payload.email = emailValue
@@ -194,7 +211,7 @@ export default function DevisFormClient() {
 
         <div className="flex flex-col gap-1">
           <label htmlFor="message" className="text-sm font-medium text-forest">Description du besoin *</label>
-          <textarea id="message" name="message" rows={4} required placeholder="Décrivez votre problème : depuis quand, type de canalisation, symptômes observés..." className="px-4 py-3 rounded-lg border border-sand bg-white text-forest placeholder:text-sand focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent resize-none" />
+          <textarea id="message" name="message" rows={4} required minLength={10} placeholder="Décrivez votre problème : depuis quand, type de canalisation, symptômes observés..." className="px-4 py-3 rounded-lg border border-sand bg-white text-forest placeholder:text-sand focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent resize-none" />
         </div>
 
         {/* Upload photos */}

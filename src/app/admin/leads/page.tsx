@@ -172,7 +172,7 @@ export default function LeadsPage() {
   function downloadPhoto(url: string) {
     const a = document.createElement('a')
     a.href = url
-    a.download = url.split('/').pop() || 'photo.jpg'
+    a.download = url.startsWith('data:') ? 'photo.jpg' : (url.split('/').pop() || 'photo.jpg')
     a.target = '_blank'
     a.click()
   }
@@ -439,6 +439,7 @@ export default function LeadsPage() {
                                 src={photo}
                                 alt={`Photo ${i + 1}`}
                                 fill
+                                unoptimized={photo.startsWith('data:')}
                                 className="object-cover group-hover:scale-105 transition-transform"
                                 sizes="112px"
                                 onError={(e) => {
@@ -552,6 +553,7 @@ export default function LeadsPage() {
               src={lightboxPhoto}
               alt={`Photo ${lightboxIndex + 1}`}
               fill
+              unoptimized={lightboxPhoto.startsWith('data:')}
               className="object-contain"
               sizes="(max-width: 1280px) 100vw, 1280px"
               onError={(e) => {
@@ -583,6 +585,7 @@ export default function LeadsPage() {
                     src={photo}
                     alt=""
                     fill
+                    unoptimized={photo.startsWith('data:')}
                     className="object-cover"
                     sizes="56px"
                   />
