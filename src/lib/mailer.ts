@@ -1,12 +1,4 @@
-import nodemailer from 'nodemailer'
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-})
+import { Resend } from 'resend'
 
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'earthsanitationbtp@gmail.com'
 
@@ -112,8 +104,15 @@ export async function sendLeadNotification(data: LeadData) {
     </div>
   `
 
-  await transporter.sendMail({
-    from: `"Earth Sanitation" <${process.env.SMTP_USER}>`,
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) {
+    console.warn('RESEND_API_KEY manquante — email non envoyé')
+    return
+  }
+
+  const resend = new Resend(apiKey)
+  await resend.emails.send({
+    from: 'Earth Sanitation <onboarding@resend.dev>',
     to: NOTIFY_EMAIL,
     subject,
     html,
