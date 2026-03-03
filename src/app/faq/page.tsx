@@ -5,8 +5,11 @@ import { prisma } from '@/lib/prisma'
 import FAQAccordion from './FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'FAQ — Questions fréquentes',
-  description: 'Retrouvez les réponses aux questions les plus fréquentes sur le débouchage, l\'assainissement et nos interventions.',
+  title: 'FAQ — Débouchage, Assainissement, Vidange Fosse Septique',
+  description: 'Réponses aux questions fréquentes sur le débouchage de canalisations, l\'assainissement, la vidange de fosse septique, les prix et nos interventions à Montpellier.',
+  alternates: {
+    canonical: 'https://earth-sanitation.fr/faq',
+  },
 }
 
 export const dynamic = 'force-dynamic'

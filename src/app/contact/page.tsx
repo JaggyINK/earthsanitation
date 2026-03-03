@@ -6,8 +6,11 @@ import { getSiteSettings } from '@/lib/settings'
 import ContactFormClient from './ContactFormClient'
 
 export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Contactez Earth Sanitation pour vos problèmes de canalisations et d\'assainissement. Devis gratuit.',
+  title: 'Contact — Débouchage & Assainissement Montpellier',
+  description: 'Contactez Earth Sanitation pour vos urgences de débouchage, assainissement et canalisations à Montpellier, Nîmes et alentours. Disponible 24h/24, devis gratuit.',
+  alternates: {
+    canonical: 'https://earth-sanitation.fr/contact',
+  },
 }
 
 export default async function ContactPage() {

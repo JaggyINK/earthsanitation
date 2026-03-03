@@ -6,6 +6,18 @@ import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import PhoneButton from '@/components/shared/PhoneButton'
 import { prisma } from '@/lib/prisma'
 import { ArticleSchema } from '@/components/seo/StructuredData'
+import { services } from '@/data/services'
+
+// Map blog slugs to related service slugs for internal linking
+const blogServiceLinks: Record<string, string[]> = {
+  'canalisation-bouchee-que-faire-guide-debouchage-montpellier': ['debouchage-canalisations', 'inspection-camera', 'curage-canalisations'],
+  'curage-canalisations-pourquoi-frequence-tout-savoir': ['curage-canalisations', 'debouchage-canalisations', 'inspection-camera'],
+  'inspection-camera-canalisations-quand-pourquoi-diagnostic-video': ['inspection-camera', 'debouchage-canalisations', 'assainissement'],
+  'assainissement-individuel-collectif-quelle-solution-habitation': ['assainissement', 'vidange-fosse-septique', 'inspection-camera'],
+  'vidange-fosse-septique-frequence-prix-obligations-legales': ['vidange-fosse-septique', 'assainissement', 'inspection-camera'],
+  'travaux-vrd-comprendre-branchements-reseaux-enterres': ['travaux-vrd', 'pose-reseaux-sans-tranchee', 'assainissement'],
+  'renovation-canalisations-sans-tranchee-techniques-avantages-prix': ['pose-reseaux-sans-tranchee', 'inspection-camera', 'travaux-vrd'],
+}
 
 // Map blog slugs to featured images based on topic
 const blogImages: Record<string, { src: string; alt: string }> = {
@@ -59,12 +71,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: post.title,
     description: post.excerpt || `Découvrez notre article : ${post.title}`,
+    alternates: {
+      canonical: `https://earth-sanitation.fr/blog/${slug}`,
+    },
     openGraph: {
       title: `${post.title} | Earth Sanitation`,
       description: post.excerpt || `Découvrez notre article : ${post.title}`,
       type: 'article',
       publishedTime: post.publishedAt?.toISOString() || undefined,
       modifiedTime: post.updatedAt.toISOString(),
+      url: `https://earth-sanitation.fr/blog/${slug}`,
       ...(image && { images: [{ url: image.src, alt: image.alt }] }),
     },
   }
@@ -216,6 +232,38 @@ export default async function BlogPostPage({ params }: PageProps) {
           </div>
         </div>
       </article>
+
+      {/* Related Services - Internal Linking for SEO */}
+      {(() => {
+        const relatedSlugs = blogServiceLinks[slug] || []
+        const relatedServices = relatedSlugs
+          .map(s => services.find(svc => svc.slug === s))
+          .filter(Boolean)
+        if (relatedServices.length === 0) return null
+        return (
+          <section className="py-12 lg:py-16 bg-cream/50">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h2 className="text-2xl font-heading font-bold text-forest mb-6">
+                Services associés
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {relatedServices.map(svc => svc && (
+                  <Link
+                    key={svc.slug}
+                    href={`/services/${svc.slug}`}
+                    className="bg-white rounded-xl p-5 border border-sand/40 hover:shadow-md hover:border-forest/20 transition-all group"
+                  >
+                    <h3 className="font-heading font-semibold text-forest group-hover:text-forest/80 mb-2">
+                      {svc.shortTitle}
+                    </h3>
+                    <p className="text-sage text-sm line-clamp-2">{svc.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      })()}
 
       {/* Related CTA */}
       <section className="bg-forest text-cream py-12 lg:py-16">

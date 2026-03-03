@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: 'Blog — Conseils Assainissement & Canalisations',
   description:
     'Découvrez nos articles et conseils sur l\'entretien des fosses septiques, le débouchage de canalisations et l\'assainissement.',
+  alternates: {
+    canonical: 'https://earth-sanitation.fr/blog',
+  },
   openGraph: {
     title: 'Blog — Conseils Assainissement & Canalisations | Earth Sanitation',
     description:

@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: 'À propos — Earth Sanitation',
   description:
     "Découvrez Earth Sanitation, votre spécialiste en débouchage, assainissement et travaux de canalisations. Intervention 24h/24 sur Montpellier, Nîmes et alentours.",
+  alternates: {
+    canonical: 'https://earth-sanitation.fr/a-propos',
+  },
 }
 
 export default function AProposPage() {

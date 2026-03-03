@@ -11,6 +11,12 @@ import { getSiteSettings } from '@/lib/settings'
 import ReviewsSection from '@/components/shared/ReviewsSection'
 import Image from 'next/image'
 import { BreadcrumbSchema } from '@/components/seo/StructuredData'
+import {
+  getDistanceFromBase,
+  getEstimatedTime,
+  getNearbyCities,
+  getIntroText,
+} from '@/lib/geo'
 
 interface Props {
   params: { ville: string }
@@ -23,16 +29,20 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const city = cities.find(c => c.slug === params.ville)
   if (!city) return {}
+
   const siteUrl = 'https://earth-sanitation.fr'
+  const dist = getDistanceFromBase(city)
+  const time = getEstimatedTime(dist)
+
   return {
-    title: `Débouchage & Assainissement ${city.name}`,
-    description: `Intervention urgente débouchage et assainissement à ${city.name} (${city.department}). Disponible 24h/24, 7j/7. Devis gratuit.`,
+    title: `Débouchage & Assainissement ${city.name} (${city.cp}) — Earth Sanitation`,
+    description: `Débouchage et assainissement à ${city.name} (${city.cp}, ${city.department}). Intervention en ${time}. Disponible 24h/24, 7j/7. Devis gratuit.`,
     alternates: {
       canonical: `${siteUrl}/zone/${city.slug}`,
     },
     openGraph: {
-      title: `Débouchage & Assainissement ${city.name} — Earth Sanitation`,
-      description: `Intervention urgente débouchage et assainissement à ${city.name} (${city.department}). Disponible 24h/24, 7j/7.`,
+      title: `Débouchage & Assainissement ${city.name} (${city.cp}) — Earth Sanitation`,
+      description: `Intervention urgente débouchage et assainissement à ${city.name} (${city.department}). Arrivée en ${time}. Disponible 24h/24.`,
       url: `${siteUrl}/zone/${city.slug}`,
       type: 'website',
     },
@@ -45,6 +55,12 @@ export default async function VillePage({ params }: Props) {
 
   const { whatsappNumber } = await getSiteSettings()
 
+  const dist = getDistanceFromBase(city)
+  const time = getEstimatedTime(dist)
+  const distDisplay = Math.round(dist)
+  const nearby = getNearbyCities(city, cities, 5)
+  const introText = getIntroText(city)
+
   return (
     <>
       <BreadcrumbSchema items={[
@@ -53,6 +69,7 @@ export default async function VillePage({ params }: Props) {
         { name: city.name, href: `/zone/${city.slug}` },
       ]} />
 
+      {/* Hero */}
       <section className="bg-forest text-cream py-14 lg:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ name: city.name, href: `/zone/${city.slug}` }]} />
@@ -60,10 +77,29 @@ export default async function VillePage({ params }: Props) {
             Débouchage &amp; Assainissement
             <span className="text-gold block mt-2">{city.name}</span>
           </h1>
-          <p className="text-cream/80 text-lg">
-            Intervention rapide à {city.name} ({city.department}) et ses environs.
-            Disponible 24h/24, 7j/7.
+          <p className="text-cream/80 text-lg leading-relaxed">
+            {introText}
           </p>
+        </div>
+      </section>
+
+      {/* Temps d'intervention */}
+      <section className="py-10 bg-cream/50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="text-3xl font-bold text-forest">{distDisplay} km</div>
+              <div className="text-sage text-sm mt-1">Distance depuis Montpellier</div>
+            </div>
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="text-3xl font-bold text-gold">{time}</div>
+              <div className="text-sage text-sm mt-1">Temps d&apos;intervention estimé</div>
+            </div>
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="text-3xl font-bold text-forest">24h/24</div>
+              <div className="text-sage text-sm mt-1">Disponibilité urgences</div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -75,7 +111,7 @@ export default async function VillePage({ params }: Props) {
               Nos services à {city.name}
             </h2>
             <p className="text-sage max-w-2xl mx-auto">
-              Des solutions professionnelles pour tous vos problèmes de canalisations et d&apos;assainissement.
+              Des solutions professionnelles pour tous vos problèmes de canalisations et d&apos;assainissement à {city.name} et dans le {city.department}.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -85,7 +121,7 @@ export default async function VillePage({ params }: Props) {
                   <div className="relative w-full h-48 overflow-hidden">
                     <Image
                     src={service.image}
-                    alt={service.title}
+                    alt={`${service.title} à ${city.name}`}
                     fill
                     className="object-cover"
                     />
@@ -117,7 +153,41 @@ export default async function VillePage({ params }: Props) {
             </a>
             <Button href="/devis" variant="outline" size="lg">Devis gratuit</Button>
           </div>
-          {/* Reviews */}
+        </div>
+      </section>
+
+      {/* Villes proches */}
+      <section className="py-12 bg-cream/30">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-heading font-bold text-forest mb-6 text-center">
+            Nous intervenons aussi près de {city.name}
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+            {nearby.map(c => {
+              const d = Math.round(
+                Math.sqrt(
+                  Math.pow((c.lat - city.lat) * 111, 2) +
+                  Math.pow((c.lng - city.lng) * 111 * Math.cos(city.lat * Math.PI / 180), 2)
+                )
+              )
+              return (
+                <Link
+                  key={c.slug}
+                  href={`/zone/${c.slug}`}
+                  className="bg-white rounded-lg p-4 text-center shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className="font-semibold text-forest text-sm">{c.name}</div>
+                  <div className="text-sage text-xs mt-1">~{d} km</div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews */}
+      <section className="py-16 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ReviewsSection />
         </div>
       </section>

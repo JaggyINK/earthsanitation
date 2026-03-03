@@ -4,8 +4,11 @@ import HeroBackground from '@/components/shared/HeroBackground'
 import DevisFormClient from './DevisFormClient'
 
 export const metadata: Metadata = {
-  title: 'Devis gratuit',
-  description: 'Demandez un devis gratuit pour vos travaux de débouchage, assainissement ou canalisations. Réponse sous 24h.',
+  title: 'Devis Gratuit Débouchage & Assainissement — Sans Engagement',
+  description: 'Demandez un devis gratuit sans engagement pour débouchage, vidange fosse septique, assainissement et canalisations à Montpellier, Nîmes et alentours. Réponse sous 24h.',
+  alternates: {
+    canonical: 'https://earth-sanitation.fr/devis',
+  },
 }
 
 export default function DevisPage() {

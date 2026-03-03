@@ -1,19 +1,51 @@
 import type { Metadata } from 'next'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import ReviewsSection from '@/components/shared/ReviewsSection'
+import { FAQSchema } from '@/components/seo/StructuredData'
 import Image from 'next/image'
 import Link from 'next/link'
 import UrgenceClientSections from './UrgenceClientSections'
+
+const urgenceFaqs = [
+  {
+    question: 'Intervenez-vous vraiment la nuit et le week-end ?',
+    answer: "Oui, nous sommes disponibles 24h/24 et 7j/7, y compris les jours fériés. Un technicien de garde est toujours prêt à intervenir. Et contrairement à beaucoup de prestataires, nous n'appliquons aucune majoration pour les interventions hors horaires classiques.",
+  },
+  {
+    question: "Combien coûte une intervention d'urgence ?",
+    answer: "Le tarif dépend de la nature du problème. Un débouchage simple commence autour de 80-150 €. Nous vous communiquons un devis précis et gratuit avant toute intervention, sans engagement. Aucun surcoût surprise.",
+  },
+  {
+    question: "Quel est votre délai d'intervention ?",
+    answer: "En moyenne, nos techniciens arrivent en 45 minutes. Dans tous les cas, nous nous engageons à intervenir en moins d'une heure sur Montpellier et les communes proches, et sous 1h30 pour les zones plus éloignées.",
+  },
+  {
+    question: 'Que faire en attendant votre arrivée ?',
+    answer: "Coupez l'arrivée d'eau si possible. Ne versez aucun produit chimique dans la canalisation. Protégez vos affaires des zones inondées. Si l'eau monte, placez des serpillières ou des seaux. Nous vous guiderons par téléphone en attendant.",
+  },
+  {
+    question: 'Acceptez-vous les paiements par carte ou en plusieurs fois ?',
+    answer: "Oui, nous acceptons les paiements par carte bancaire, espèces, virement et chèque. Pour les interventions plus importantes, nous pouvons mettre en place un paiement en plusieurs fois.",
+  },
+  {
+    question: 'Êtes-vous assurés pour les dégâts éventuels ?',
+    answer: "Oui, Earth Sanitation est une entreprise assurée en responsabilité civile professionnelle. Vous êtes couvert en cas de dommage lié à notre intervention.",
+  },
+]
 
 export const metadata: Metadata = {
   title: 'Urgence Débouchage 24h/24 7j/7 — Intervention < 1h',
   description:
     "Urgence canalisation bouchée, refoulement, inondation ? Intervention en moins d'1h sur Montpellier, Nîmes et 100km autour. Disponible 24h/24 7j/7. Sans surcoût nuit et week-end.",
+  alternates: {
+    canonical: 'https://earth-sanitation.fr/urgence',
+  },
 }
 
 export default function UrgencePage() {
   return (
     <>
+      <FAQSchema faqs={urgenceFaqs} />
       {/* ═══════════════════════ HERO ═══════════════════════ */}
       <section className="relative text-white overflow-hidden">
         <Image
